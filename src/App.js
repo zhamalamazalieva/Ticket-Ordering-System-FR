@@ -4,6 +4,8 @@ import './scss/style.scss';
 import Routes from './views/pages/routes/Routes.js';
 import { useDispatch, useSelector } from 'react-redux'
 import { loadUser } from './redux/action/authAction';
+import PansionServiceContext from "./context/PansionServiceContext"
+import PansionService from "./service/PansionService"
 
 
 const App = () => {
@@ -20,8 +22,14 @@ useEffect(() => {
 
 return (
   <Router>
-    {isUserLoading ? <div>...loading</div> :<Routes/> }
-  </Router>
+
+
+  <PansionServiceContext.Provider value={new PansionService()}>
+    { isUserLoading ? <div>...</div> : <Routes/> }
+</PansionServiceContext.Provider>
+</Router>
+
+
 )}
 
 export default App
