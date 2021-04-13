@@ -11,8 +11,8 @@ import {
 
 
 const initialState = {
-    accessToken: localStorage.getItem('access_token'),
-    refreshToken: localStorage.getItem('refreshToken'),
+    accessToken: localStorage.getItem('access_token_pansion'),
+    refreshToken: localStorage.getItem('refresh_token_pansion'),
     isAuthenticated: false,
     user: null,
     error:null,
@@ -43,7 +43,7 @@ export default function authReducer( state = initialState, action ){
 
 
         case USER_SUCCESS:
-            localStorage.setItem('accessToken', action.payload.accessToken)
+            localStorage.setItem('access_token_pansion', action.payload.accessToken)
             return{
                 ...state,
                 isAuthenticated:true,
@@ -55,15 +55,15 @@ export default function authReducer( state = initialState, action ){
 
 
         case LOGIN_SUCCESS:
-            localStorage.setItem('accessToken', action.payload.accessToken)
-            localStorage.setItem('refreshToken', action.payload.refreshToken)
+            localStorage.setItem('access_token_pansion', action.payload.accessToken)
+            localStorage.setItem('refresh_token_pansion', action.payload.refreshToken)
             return{
                 ...state,
                 user:action.payload.user,
                 isAuthenticated:true,
                 isLoginLoading: false, 
                 accessToken: action.payload.accessToken,
-                refreshToken:action.payload.refreshToken,
+                refreshToken: action.payload.refreshToken,
                 error:null
             }
 
@@ -71,8 +71,8 @@ export default function authReducer( state = initialState, action ){
         case USER_FAIL:
         case LOGIN_FAIL:
         case LOGOUT:
-            localStorage.removeItem('accessToken')
-            localStorage.removeItem('refreshToken')
+            localStorage.removeItem('access_token_pansion')
+            localStorage.removeItem('refresh_token_pansion')
             return{
                 ...state,
                 accessToken:null,

@@ -1,30 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import {
     CRow,
     CCol,
     CDataTable,
     CButton
 } from '@coreui/react'
-import usersData from './userData'
 
 function DepartmentTable({ department, onEditClick, onDeleteClick }) {
 
     return (
         <>
             <CDataTable
-                items={usersData}
+                items={department}
                 fields={fields}
                 hover
                 striped
                 bordered
                 size="sm"
                 sorter
-                columnFilter
                 scopedSlots = {{
                     'Список отделов':
                         (item)=>(
                             <td>
                                 { item.depName }
+                            </td>
+                        ),
+                    'Описание':
+                        (item)=>(
+                            <td>
+                                { item.description }
                             </td>
                         ),
                     'actions':
@@ -46,7 +50,7 @@ function DepartmentTable({ department, onEditClick, onDeleteClick }) {
     )
 }
 
-const fields = ['Список отделов', {
+const fields = ['Список отделов', ' Описание', {
     key: 'actions',
     label: '',
     _style: { width: '35%' },

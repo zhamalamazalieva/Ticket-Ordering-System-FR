@@ -14,37 +14,39 @@ import {
   CForm,
 } from "@coreui/react";
 import PansionServiceContext from "../../context/PansionServiceContext";
-import { Formik } from "formik";
 import MiniSpinner from "../spinners/MiniSpinner";
 
 function DepartmentCreateModalForm({
   isFormModalOpen,
   closeFormModal,
-  openFormModal,
   reFetchDepartment,
+  department
 }) {
   const PansionService = useContext(PansionServiceContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [createError, setCreateError] = useState(null);
 
-  const onSubmit = async (values) => {
-    setCreateError(null);
-    setIsLoading(true);
+  const [ newDep, setNewDep ] = useState({
+    depName:'',
+    description:''
+  }) 
 
-    const { hasError, data } = await PansionService.createDepartment(
-      values.depName,
-    );
+  const saveDep = (event) => {
+      setNewDep({
+        depName: event.target.form[0].value,
+        description: event.target.form[1].value,
+      })    
+  }
 
-    if (hasError) {
-      setCreateError((data && data.detail) || "Что-то пошло не так!");
-    } else {
-      reFetchDepartment();
-      closeFormModal();
-    }
-
-    setIsLoading(false);
-  };
+  const onSubmit = (event) => {
+    event.preventDefault()
+    setNewDep([...department, newDep])
+    setNewDep({
+      depName:'',
+      description:''
+    })
+  }
 
   return (
     <>
@@ -54,26 +56,8 @@ function DepartmentCreateModalForm({
         size="sm"
         centered
       >
-        <Formik
-          initialValues={formValues}
-          onSubmit={onSubmit}
-          validate={(values) => {
-            const errors = {};
-            !values.depName && (errors.depName = "Обязательное поле");
-
-            return errors;
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isSubmitting,
-          }) => (
-            <CForm onSubmit={handleSubmit}>
+        <CModalBody>
+        <CForm onSubmit={(event) => onSubmit(event)}>
               <CModalHeader closeButton>Добавление отдела</CModalHeader>
               <CModalBody>
                 <CRow>
@@ -84,19 +68,30 @@ function DepartmentCreateModalForm({
                       </CCol>
                       <CCol xs="9">
                         <CInput
-                          id="city"
-                          value={values.depName}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          className={
-                            errors.depName && touched.depName ? "border-error" : ""
-                          }
+                          id="depName"
+                          onChange={(event) => saveDep(event)}
+                          value={newDep.depName}
+                          type="text"
                         />
-                        {
-                          <span className="text-danger">
-                            {errors.depName && touched.depName && errors.depName}
-                          </span>
-                        }
+                       
+                      </CCol>
+                    </CFormGroup>
+                  </CCol>
+                </CRow>
+                <CRow>
+                  <CCol>
+                    <CFormGroup row>
+                      <CCol xs="3">
+                        <CLabel htmlFor="city">Описание</CLabel>
+                      </CCol>
+                      <CCol xs="9">
+                        <CInput
+                          id="description"
+                          onChange={(event) => saveDep(event)}
+                          value={newDep.description}
+                          type="text"
+                        />
+                      
                       </CCol>
                     </CFormGroup>
                   </CCol>
@@ -125,13 +120,10 @@ function DepartmentCreateModalForm({
                 </CButton>
               </CModalFooter>
             </CForm>
-          )}
-        </Formik>
+        </CModalBody>
       </CModal>
     </>
   );
-}
-
-const formValues = { depName: "" };
+                }      
 
 export default DepartmentCreateModalForm;

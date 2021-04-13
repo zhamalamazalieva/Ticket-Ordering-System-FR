@@ -4,16 +4,17 @@ import {
     CCard,
     CCardBody,
     CCardHeader,
-    CCol, CModal, CModalBody, CModalFooter,
+    CCol,
     CRow
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import DepartmentTable from "./DepartmentTable"
 import DepartmentCreateModalForm from "./DepartmentCreateModalForm"
-import PansionServiceContext from "../../context/PansionServiceContext"
-import FullPageSpinner from "../spinners/FullPageSpinner"
 import DepartmentEditModalForm from "./DepartmentEditModalForm"
 import DepartmentDeleteModal from "./DepartmentDeleteModal";
+import PansionServiceContext from "../../context/PansionServiceContext"
+import FullPageSpinner from "../spinners/FullPageSpinner"
+
 
 function DepartmentContent(props) {
 

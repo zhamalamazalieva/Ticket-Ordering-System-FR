@@ -17,8 +17,7 @@ const getBadge = status => {
 
 function RoomsTable({ rooms, onEditClick, onDeleteClick }) {
 
- 
-    return (
+     return (
         <>
             <CDataTable
                 items={roomsData}
@@ -29,16 +28,22 @@ function RoomsTable({ rooms, onEditClick, onDeleteClick }) {
                 size="sm"
                 sorter
                 scopedSlots = {{
-                    'Список номеров':
+                    number:
                         (item)=>(
                             <td>
-                                { item.depName }
+                                { item.name }
+                            </td>
+                        ),
+                    'Описание':
+                        (item)=>(
+                            <td>
+                                { item.description }
                             </td>
                         ),
                     'Количество мест':
                         (item)=>(
                             <td>
-                                { item.place }
+                                { item.seats }
                             </td>
                         ),
                    'Статус':
@@ -49,6 +54,25 @@ function RoomsTable({ rooms, onEditClick, onDeleteClick }) {
                                   </CBadge>
                                 </td>
                               ),
+                    'Категория':
+                              (item)=>(
+                                <td>                              
+                                    {item.category}
+                                </td>
+                              ),
+                    'Цена Льгот.':
+                              (item)=>(
+                                <td>                              
+                                    {item.price}
+                                </td>
+                              ),
+                    'Цена комм.':
+                              (item)=>(
+                                <td>                              
+                                    {item.price}
+                                </td>
+                              ),
+                  
                     'actions':
                         (item)=>(
                             <td>
@@ -68,10 +92,13 @@ function RoomsTable({ rooms, onEditClick, onDeleteClick }) {
     )
 }
 
-const fields = ['Список номеров', 'Количество мест', 'Статус', {
+const fields = [{
+    key: 'number',
+    label:'Номер'
+},'Описание', 'Количество мест', 'Статус','Категория','Цена льгот.','Цена комм.', {
     key: 'actions',
     label: '',
-    _style: { width: '30%' },
+    // _style: { width: '30%' },
 }]
 
 export default RoomsTable

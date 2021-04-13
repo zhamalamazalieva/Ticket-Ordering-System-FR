@@ -15,13 +15,14 @@ export const loadUser = () => async (dispatch, getState) => {
     const token = getState().auth.refreshToken
 
     if(token){
-        const result = await doRequestAndParse('/api/users/login',{
+        const result = await doRequestAndParse('/token/refresh',{
             method:'POST', 
             headers: {'Content-Type' : 'application/json'},
             body: JSON.stringify({ refresh: token })
         })
 
         const { hasError, data } = result
+        
         console.log('result:', result)
 
         if( hasError ) {
@@ -43,12 +44,15 @@ export const loadUser = () => async (dispatch, getState) => {
 
 
 export const login = ( username, password ) => async dispatch => {
-    const result = await doRequestAndParse('/api/users/login', {
+    const result = await doRequestAndParse('/users/login/', {
         method: 'POST',
         headers: { 'Content-Type':'application/json' },
         body: JSON.stringify({ username, password })
     })
     const { hasError, data } = result
+
+    console.log('dataaa: ', data);
+
     if( hasError ) {
         const { detail } = data
         dispatch(loginFail(detail || 'Что-то пошло не так'))
@@ -76,7 +80,8 @@ const doRequestAndParse = async ( url, options ) => {
 }
 
 export const loginLoading = () => ({ type: LOGIN_LOADING })
-export const loginSuccess = ( user, accessToken, refreshToken ) => ({  type: LOGIN_SUCCESS, payload: { user, accessToken, refreshToken}})
+export const loginSuccess = ( user, accessToken, refreshToken ) => ({ 
+     type: LOGIN_SUCCESS, payload: { user, accessToken, refreshToken}})
 export const loginFail = (error) => ({ type: LOGIN_FAIL, payload: error})
 
 

@@ -9,25 +9,27 @@ import PansionService from "./service/PansionService"
 
 
 const App = () => {
+  
+ 
 
+  const accesstoken = useSelector(state => state.auth.accesstoken)
+  const isAuthenticated =  useSelector(state => state.auth.isAuthenticated)
   const isUserLoading = useSelector(state => state.auth.isUserLoading)
-
+  
   const dispatch = useDispatch();
 
-useEffect(() => {
-  dispatch(loadUser());
-}, []);
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
 
 
 
 return (
   <Router>
-
-
-  <PansionServiceContext.Provider value={new PansionService()}>
-    { isUserLoading ? <div>...</div> : <Routes/> }
-</PansionServiceContext.Provider>
-</Router>
+    <PansionServiceContext.Provider value={new PansionService()}>
+      { isUserLoading ? <div>...</div> : <Routes/> }
+    </PansionServiceContext.Provider>
+  </Router>
 
 
 )}
