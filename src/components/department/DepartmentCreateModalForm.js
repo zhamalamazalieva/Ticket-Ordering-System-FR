@@ -90,13 +90,11 @@ function DepartmentCreateModalForm({
                           onChange={(event) => saveDep(event)}
                           value={newDep.description}
                           type="text"
-                        />
-                      
+                        />                      
                       </CCol>
                     </CFormGroup>
                   </CCol>
                 </CRow>
-               
                 {createError && (
                   <CRow>
                     <CCol>
@@ -125,5 +123,4 @@ function DepartmentCreateModalForm({
     </>
   );
                 }      
-
 export default DepartmentCreateModalForm;
