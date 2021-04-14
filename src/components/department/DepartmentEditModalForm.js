@@ -1,113 +1,122 @@
-import React, {useState, useContext} from 'react'
+import React, { useState, useContext } from "react";
 import {
-    CModal,
-    CModalBody,
-    CModalHeader,
-    CModalFooter,
-    CButton,
-    CCol,
-    CRow,
-    CFormGroup,
-    CInput,
-    CLabel,
-    CForm
-} from '@coreui/react'
-import PansionServiceContext from "../../context/PansionServiceContext"
-import { Formik } from "formik"
-import MiniSpinner from "../spinners/MiniSpinner"
+  CModal,
+  CModalBody,
+  CModalHeader,
+  CModalFooter,
+  CButton,
+  CCol,
+  CRow,
+  CFormGroup,
+  CInput,
+  CLabel,
+  CForm,
+} from "@coreui/react";
+import PansionServiceContext from "../../context/PansionServiceContext";
 
-function DepartmentEditModalForm({ isFormModalOpen, closeFormModal, openFormModal, reFetchDepartment, selectedDepartment }) {
+function DepartmentEditModalForm({
+  isFormModalOpen,
+  closeFormModal,
+  openFormModal,
+  reFetchDepartment,
+  selectedDepartment,
+}) {
+  //   const formValues = { title: selectedDepartment.title, description: selectedDepartment.description };
 
-    const formValues = { depName: selectedDepartment.depName }
+  const [isLoading, setIsLoading] = useState(false);
+  const [editError, setEditError] = useState(null);
+  const PansionService = useContext(PansionServiceContext);
 
-    const PansionService = useContext(PansionServiceContext)
+  //   console.log('formValues:', formValues)
 
-    const [isLoading, setIsLoading] = useState(false)
-    const [editError, setEditError] = useState(null)
+  const [title, setTitle] = useState(selectedDepartment.title);
+  const [description, setDescription] = useState(
+    selectedDepartment.description
+  );
 
-    const onSubmit = async values => {
-        setEditError(null)
-        setIsLoading(true)
+  // const reset = () => {
+  //     setTitle():'',
+  //     setDescription():''
+  // }
 
-        const { hasError, data } = await PansionService.updateDepartment( selectedDepartment.id, values.depName )
-
-        if (hasError){
-            setEditError((data && data.detail) || 'Что-то пошло не так!')
-        } else {
-            reFetchDepartment()
-            closeFormModal()
-        }
-
-        setIsLoading(false)
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const { hasError, data } = await PansionService.updateDepartment({
+      id: selectedDepartment.id,
+      title,
+      description,
+    });
+    if (hasError) {
+      console.log("ошибкаааааааа");
+    } else {
+      closeFormModal();
+      reFetchDepartment();
     }
+  };
 
-    return (
-        <>
-            <CModal
-                show={isFormModalOpen}
-                onClose={closeFormModal}
-                size="sm"
-                centered
-            >
-                <Formik initialValues={formValues} onSubmit={onSubmit} validate={values => {
-                    const errors = {}
-                    !values.depName && (errors.depName = 'Обязательное поле')
-                    return errors
-                }}>
-                    {({
-                          values,
-                          errors,
-                          touched,
-                          handleChange,
-                          handleBlur,
-                          handleSubmit,
-                          isSubmitting,
-                      }) => (
-                        <CForm onSubmit={handleSubmit}>
-                            <CModalHeader closeButton>Изменение филиала</CModalHeader>
-                            <CModalBody>
-                                <CRow>
-                                    <CCol>
-                                        <CFormGroup row>
-                                            <CCol xs="3">
-                                                <CLabel htmlFor="city">Отдел</CLabel>
-                                            </CCol>
-                                            <CCol xs="9">
-                                                <CInput
-                                                    id="city"
-                                                    value={values.depName}
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    className={errors.depName && touched.depName? 'border-error' : ''}
-                                                />
-                                                { <span className="text-danger">{errors.depName && touched.depName && errors.depName}</span> }
-                                            </CCol>
-                                        </CFormGroup>
-                                    </CCol>
-                                </CRow>
-                                { editError && <CRow>
-                                    <CCol>
-                                        <span className="text-danger">{ editError }</span>
-                                    </CCol>
-                                </CRow> }
-                            </CModalBody>
-                            <CModalFooter>
-                                { isLoading ?
-                                    <div className="mr-5">...</div> :
-                                    <CButton color="primary" type="submit">
-                                        Изменить
-                                    </CButton> }
-                                <CButton
-                                    color="secondary"
-                                    onClick={closeFormModal}
-                                >Cancel</CButton>
-                            </CModalFooter>
-                        </CForm>
-                    )}
-                </Formik>
-            </CModal>
-        </>
-    )
+  return (
+    <>
+      <CModal
+        show={isFormModalOpen}
+        onClose={closeFormModal}
+        size="sm"
+        centered
+      >
+        <CModalBody>
+          <CForm onSubmit={(e) => onSubmit(e)}>
+            <CModalHeader closeButton>Изменение филиала</CModalHeader>
+            <CModalBody>
+              <CRow>
+                <CCol>
+                  <CFormGroup row>
+                    <CCol xs="12">
+                      <CLabel htmlFor="city">Отдел</CLabel>
+                    </CCol>
+                    <CCol xs="12">
+                      <CInput
+                      required
+                        id="title"
+                        onChange={(e) => setTitle(e.target.value)}
+                        value={title}
+                      />
+                    </CCol>
+                  </CFormGroup>
+                </CCol>
+              </CRow>
+              <CRow>
+                <CCol>
+                  <CFormGroup row>
+                    <CCol xs="12">
+                      <CLabel htmlFor="city">Описание</CLabel>
+                    </CCol>
+                    <CCol xs="12">
+                      <CInput
+                      required
+                        id="description"
+                        onChange={(e) => setDescription(e.target.value)}
+                        value={description}
+                      />
+                    </CCol>
+                  </CFormGroup>
+                </CCol>
+              </CRow>
+            </CModalBody>
+            <CModalFooter>
+              {isLoading ? (
+                <div className="mr-5">...</div>
+              ) : (
+                <CButton color="primary" type="submit">
+                  Изменить
+                </CButton>
+              )}
+              <CButton color="secondary" onClick={closeFormModal}>
+                Cancel
+              </CButton>
+            </CModalFooter>
+          </CForm>
+        </CModalBody>
+      </CModal>
+    </>
+  );
 }
-
-export default DepartmentEditModalForm
+export default DepartmentEditModalForm;

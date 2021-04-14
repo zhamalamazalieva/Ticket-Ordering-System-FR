@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   CModal,
   CModalBody,
@@ -10,43 +10,45 @@ import {
   CFormGroup,
   CInput,
   CLabel,
-  CSelect,
   CForm,
 } from "@coreui/react";
-import PansionServiceContext from "../../context/PansionServiceContext";
 import MiniSpinner from "../spinners/MiniSpinner";
+import PansionServiceContext from "../../context/PansionServiceContext";
 
 function DepartmentCreateModalForm({
   isFormModalOpen,
   closeFormModal,
+  departments,
+  setDepartments,
   reFetchDepartment,
-  department
 }) {
-  const PansionService = useContext(PansionServiceContext);
-
   const [isLoading, setIsLoading] = useState(false);
   const [createError, setCreateError] = useState(null);
+  const PansionService = useContext(PansionServiceContext);
 
-  const [ newDep, setNewDep ] = useState({
-    depName:'',
-    description:''
-  }) 
+  const [newDepartment, setNewDepartment] = useState({
+    title: "",
+    description: "",
+  });
 
-  const saveDep = (event) => {
-      setNewDep({
-        depName: event.target.form[0].value,
-        description: event.target.form[1].value,
-      })    
-  }
-
-  const onSubmit = (event) => {
-    event.preventDefault()
-    setNewDep([...department, newDep])
-    setNewDep({
-      depName:'',
-      description:''
-    })
-  }
+  const saveDepartment = (event) => {
+    setNewDepartment({
+      title: event.target.form[1].value,
+      description: event.target.form[2].value,
+    });
+  };
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    const {data } = await PansionService.createDepartment(
+      newDepartment
+    );
+    setDepartments([...departments, data]);
+    closeFormModal();
+    setNewDepartment({
+      title: "",
+      description: "",
+    });
+  };
 
   return (
     <>
@@ -57,70 +59,71 @@ function DepartmentCreateModalForm({
         centered
       >
         <CModalBody>
-        <CForm onSubmit={(event) => onSubmit(event)}>
-              <CModalHeader closeButton>Добавление отдела</CModalHeader>
-              <CModalBody>
-                <CRow>
-                  <CCol>
-                    <CFormGroup row>
-                      <CCol xs="3">
-                        <CLabel htmlFor="city">Отдел</CLabel>
-                      </CCol>
-                      <CCol xs="9">
-                        <CInput
-                          id="depName"
-                          onChange={(event) => saveDep(event)}
-                          value={newDep.depName}
-                          type="text"
-                        />
-                       
-                      </CCol>
-                    </CFormGroup>
-                  </CCol>
-                </CRow>
-                <CRow>
-                  <CCol>
-                    <CFormGroup row>
-                      <CCol xs="3">
-                        <CLabel htmlFor="city">Описание</CLabel>
-                      </CCol>
-                      <CCol xs="9">
-                        <CInput
-                          id="description"
-                          onChange={(event) => saveDep(event)}
-                          value={newDep.description}
-                          type="text"
-                        />                      
-                      </CCol>
-                    </CFormGroup>
-                  </CCol>
-                </CRow>
-                {createError && (
-                  <CRow>
-                    <CCol>
-                      <span className="text-danger">{createError}</span>
+          <CForm onSubmit={(event) => onSubmit(event)}>
+            <CModalHeader closeButton>Добавление отдела</CModalHeader>
+            <CModalBody>
+              <CRow>
+                <CCol>
+                  <CFormGroup row>
+                    <CCol xs="12">
+                      <CLabel htmlFor="city">Отдел</CLabel>
                     </CCol>
-                  </CRow>
-                )}
-              </CModalBody>
-              <CModalFooter>
-                {isLoading ? (
-                  <div className="mr-5">
-                    <MiniSpinner/>
-                  </div>
-                ) : (
-                  <CButton color="primary" type="submit">
-                    Добавить
-                  </CButton>
-                )}
-                <CButton color="secondary" onClick={closeFormModal}>
-                  Cancel
+                    <CCol xs="12">
+                      <CInput
+                      required
+                        id="depName"
+                        onChange={(event) => saveDepartment(event)}
+                        value={newDepartment.title}
+                        type="text"
+                      />
+                    </CCol>
+                  </CFormGroup>
+                </CCol>
+              </CRow>
+              <CRow>
+                <CCol>
+                  <CFormGroup row>
+                    <CCol xs="12">
+                      <CLabel htmlFor="city">Описание</CLabel>
+                    </CCol>
+                    <CCol xs="12">
+                      <CInput
+                      required
+                        id="description"
+                        onChange={(event) => saveDepartment(event)}
+                        value={newDepartment.description}
+                        type="text"
+                      />
+                    </CCol>
+                  </CFormGroup>
+                </CCol>
+              </CRow>
+              {createError && (
+                <CRow>
+                  <CCol>
+                    <span className="text-danger">{createError}</span>
+                  </CCol>
+                </CRow>
+              )}
+            </CModalBody>
+            <CModalFooter>
+              {isLoading ? (
+                <div className="mr-5">
+                  <MiniSpinner />
+                </div>
+              ) : (
+                <CButton color="primary" type="submit">
+                  Добавить
                 </CButton>
-              </CModalFooter>
-            </CForm>
+              )}
+              <CButton color="secondary" onClick={closeFormModal}>
+                Cancel
+              </CButton>
+            </CModalFooter>
+          </CForm>
         </CModalBody>
       </CModal>
     </>
   );
-                }      
+}
 export default DepartmentCreateModalForm;

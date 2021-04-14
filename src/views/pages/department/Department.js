@@ -1,6 +1,6 @@
 import React from "react";
 import { TheFooter, TheHeader, TheSidebar } from "../../../containers";
-import DepartmentContent from '../../../components/department/DepartmentContent';
+import DepartmentContent from "../../../components/department/DepartmentContent";
 
 const Department = () => {
   return (
@@ -9,7 +9,7 @@ const Department = () => {
       <div className="c-wrapper">
         <TheHeader />
         <div className="c-main container-fluid">
-          <DepartmentContent/>
+          <DepartmentContent />
         </div>
         <TheFooter />
       </div>

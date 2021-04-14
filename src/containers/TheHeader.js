@@ -71,7 +71,7 @@ const TheHeader = () => {
           <CHeaderNavLink to="/df">Поток</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink>Настройки</CHeaderNavLink>
+          <CHeaderNavLink to="/users">Пользователи</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
 

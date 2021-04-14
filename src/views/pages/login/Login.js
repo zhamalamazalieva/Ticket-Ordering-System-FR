@@ -18,7 +18,6 @@ import CIcon from '@coreui/icons-react'
 import { login } from '../../../redux/action/authAction'
 import { useDispatch, useSelector } from 'react-redux';
 
-
 const Login = () => {
 
   const history = useHistory()
@@ -37,7 +36,7 @@ const Login = () => {
 
   useEffect(() => {
     if(isAuthenticated){
-      history.push('/department')
+      history.push('/home')
     }
   }, [isAuthenticated, history]);
 
