@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { CRow, CCol, CDataTable, CButton } from "@coreui/react";
 
 function DepartmentTable({ departments, onEditClick, onDeleteClick }) {
+  
   useEffect(() => {
     console.log(departments);
   }, []);
+
   return (
     <>
       <CDataTable

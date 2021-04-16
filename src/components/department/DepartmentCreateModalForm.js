@@ -20,7 +20,6 @@ function DepartmentCreateModalForm({
   closeFormModal,
   departments,
   setDepartments,
-  reFetchDepartment,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [createError, setCreateError] = useState(null);
@@ -126,4 +125,4 @@ function DepartmentCreateModalForm({
     </>
   );
 }
-export default DepartmentCreateModalForm;
+export default DepartmentCreateModalForm

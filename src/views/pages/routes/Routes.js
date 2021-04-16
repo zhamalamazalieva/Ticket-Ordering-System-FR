@@ -9,9 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Login from "../login/Login";
 import Page404 from "../page404/Page404";
 import HomePage from "../home/HomePage";
-import Department from "../department/Department";
+import Departments from "../departments/Departments";
 import Rooms from "../rooms/Rooms";
 import Users from "../users/Users";
+import Employees from "../employees/Employees";
+
 
 
 function Routes() {
@@ -31,14 +33,17 @@ function Routes() {
         <Route exact path="/home">
           <HomePage />
         </Route>
-        <Route exact path="/department">
-          <Department />
+        <Route exact path="/departments">
+          <Departments />
         </Route>
         <Route exact path="/rooms">
           <Rooms />
         </Route>
         <Route exact path="/users">
           <Users />
+        </Route>
+        <Route exact path="/employees">
+          <Employees />
         </Route>
         <Route path="">
           <Page404 />

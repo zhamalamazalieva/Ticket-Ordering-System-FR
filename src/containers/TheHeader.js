@@ -62,7 +62,7 @@ const TheHeader = () => {
 
       <CHeaderNav className="d-md-down-none mr-auto">
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/department">Отдел</CHeaderNavLink>
+          <CHeaderNavLink to="/departments">Отдел</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
           <CHeaderNavLink to="/rooms">Номера</CHeaderNavLink>
@@ -76,9 +76,6 @@ const TheHeader = () => {
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
-        <TheHeaderDropdownNotif />
-        <TheHeaderDropdownTasks />
-        <TheHeaderDropdownMssg />
         <TheHeaderDropdown />
       </CHeaderNav>
 

@@ -12,7 +12,7 @@ const getBadge = (status) => {
   }
 };
 
-function RoomsTable({ rooms, onEditClick, onDeleteClick }) {
+function RoomsTable({ rooms, onEditClick }) {
   return (
     <>
       <CDataTable
@@ -52,7 +52,6 @@ function RoomsTable({ rooms, onEditClick, onDeleteClick }) {
                   <CButton
                     size="sm"
                     color="danger"
-                    onClick={() => onDeleteClick(item)}
                   >
                     Удалить
                   </CButton>

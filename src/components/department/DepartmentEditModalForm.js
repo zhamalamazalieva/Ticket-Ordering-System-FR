@@ -21,23 +21,17 @@ function DepartmentEditModalForm({
   reFetchDepartment,
   selectedDepartment,
 }) {
-  //   const formValues = { title: selectedDepartment.title, description: selectedDepartment.description };
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [editError, setEditError] = useState(null);
-  const PansionService = useContext(PansionServiceContext);
+  const PansionService = useContext(PansionServiceContext)
 
-  //   console.log('formValues:', formValues)
+  const [isLoading, setIsLoading] = useState(false)
+  const [editError, setEditError] = useState(null)
 
-  const [title, setTitle] = useState(selectedDepartment.title);
+
+  const [title, setTitle] = useState(selectedDepartment.title)
   const [description, setDescription] = useState(
     selectedDepartment.description
   );
-
-  // const reset = () => {
-  //     setTitle():'',
-  //     setDescription():''
-  // }
 
   const onSubmit = async (e) => {
     e.preventDefault();

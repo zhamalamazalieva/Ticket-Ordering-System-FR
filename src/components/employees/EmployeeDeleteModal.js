@@ -4,28 +4,28 @@ import { CButton, CModal, CModalBody, CModalFooter, CRow, CCol
 import PansionServiceContext from '../../context/PansionServiceContext';
 
 
-function UsersDeleteModal ({
-    reFetchUsers,
+function EmployeeDeleteModal ({
+    reFetchEmployees,
     closeDeleteConfirmModal,
     isDeleteConfirmModalOpen,
-    selectedUser
+    selectedEmployee
 }){
     const PansionService = useContext(PansionServiceContext)
 
     const [deleteError, setDeleteError] = useState(null)
 
     const onDelete = useCallback( async( id ) => {
-        const { hasError, data } = await PansionService.deleteUser(id)
+        const { hasError, data } = await PansionService.deleteEmployee(id)
         if( hasError ) {
             setDeleteError(data.detail)
             console.log('что то пошло не так')
         }
         else{
             closeDeleteConfirmModal();
-            reFetchUsers();
+            reFetchEmployees();
         }
     },[])
-    console.log('userID:', selectedUser.id);
+    console.log('EmployeeID:', selectedEmployee.id);
     return(
         <CModal
             show={isDeleteConfirmModalOpen}
@@ -40,7 +40,7 @@ function UsersDeleteModal ({
                 <CRow>
                     <CButton
                         color="danger"
-                        onClick={ () => onDelete(selectedUser.id)}
+                        onClick={ () => onDelete(selectedEmployee.id)}
                     >               
                     Удалить         
                     </CButton>
@@ -62,4 +62,4 @@ function UsersDeleteModal ({
         </CModal>
     )
 }
-export default UsersDeleteModal;
+export default EmployeeDeleteModal;
