@@ -1,6 +1,7 @@
 import React from "react";
 import { CRow, CCol, CDataTable, CButton, CBadge } from "@coreui/react";
-import roomsData from "./roomsData";
+
+
 const getBadge = (status) => {
   switch (status) {
     case "Пустой":
@@ -16,7 +17,7 @@ function RoomsTable({ rooms, onEditClick }) {
   return (
     <>
       <CDataTable
-        items={roomsData}
+        items={rooms}
         fields={fields}
         hover
         striped
@@ -27,15 +28,14 @@ function RoomsTable({ rooms, onEditClick }) {
           number: (item) => <td>{item.name}</td>,
           description: (item) => <td>{item.description}</td>,
           seats: (item) => <td>{item.seats}</td>,
+          category: (item) => <td>{item.category}</td>,
           status: (item) => (
             <td>
               <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
             </td>
           ),
-          category: (item) => <td>{item.category}</td>,
-          price1: (item) => <td>{item.price}</td>,
-          price2: (item) => <td>{item.price}</td>,
-
+          price: (item) => <td>{item.price}</td>,
+          size: (item) => <td>{item.size}</td>,
           actions: (item) => (
             <td>
               <CRow>
@@ -83,12 +83,12 @@ const fields = [
     label: "Категория",
   },
   {
-    key: "price1",
-    label: "Цена льгот.",
+    key: "price",
+    label: "Цена",
   },
   {
-    key: "price2",
-    label: "Цена коммр.",
+    key: "size",
+    label: "Размер",
   },
   {
     key: "actions",

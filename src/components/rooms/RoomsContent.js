@@ -12,8 +12,34 @@ import {
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import RoomsTable from "./RoomsTable";
+import PansionServiceContext from '../../context/PansionServiceContext'
+import FullPageSpinner from '../../components/spinners/FullPageSpinner'
+
 
 function RoomsContent(props) {
+  const [rooms, setRooms] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  const PansionService = useContext(PansionServiceContext)
+
+  const fetchRooms =  useCallback( async () => {
+    setIsLoading(true)
+    const { hasError, data } = await PansionService.getRooms()
+    if( hasError) {
+      console.log(hasError);
+    }
+    else{
+      setRooms(data)
+    }
+    setIsLoading(false)
+  }, [])
+
+
+  useEffect(() => {
+    fetchRooms()
+  },[])
+
+
   return (
     <>
       <CCard>
@@ -28,7 +54,11 @@ function RoomsContent(props) {
           </CRow>
         </CCardHeader>
         <CCardBody>
-          <RoomsTable />
+          { isLoading ? <FullPageSpinner/> : (
+          <RoomsTable
+           rooms={rooms.map( r => ({...r, size: `${r.latitude} ${r.longitude}`}))}
+           setRooms={setRooms}
+          />)}
         </CCardBody>
       </CCard>
     </>

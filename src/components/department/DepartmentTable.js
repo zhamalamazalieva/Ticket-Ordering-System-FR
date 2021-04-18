@@ -15,7 +15,7 @@ function DepartmentTable({ departments, onEditClick, onDeleteClick }) {
         hover
         striped
         bordered
-        size="sm"
+        size="sl"
         sorter
         scopedSlots={{
           title: (item) => <td>{item.title}</td>,

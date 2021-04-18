@@ -29,7 +29,7 @@ function DepartmentContent( props ) {
   const [isEditFormModalOpen, setIsEditFormModalOpen] = useState(false)
   const [isDeleteConfirmModalOpen, setIsDeleteConfirmModalOpen] = useState(false);
   
-  //DETCH DEPARTMENT
+  //FETCH DEPARTMENT
   const fetchDepartment = useCallback( async () => {
     setIsLoading(true)
     const { hasError, data } = await PansionService.getDepartment();

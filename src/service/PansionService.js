@@ -2,7 +2,7 @@
 export default class PansionService {
  
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////DEPARTMENTS//////////////////////////////////////////////////////////////////
 
    //GETDEPARTMENT
    getDepartment = async () => {
@@ -54,7 +54,7 @@ export default class PansionService {
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////USERS/////////////////////////////////////////////////////////////////////////
 
   //GETUSERS
   getUsers = async () => {
@@ -108,7 +108,6 @@ export default class PansionService {
     })
   }
 
-
   //DELETEUSER
   deleteUser = async (id) => {
     const res = await fetch(`/users/${id}/`, {
@@ -124,7 +123,7 @@ export default class PansionService {
   }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //GETEMPLOYEES
   getEmployees = async () => {
@@ -134,9 +133,7 @@ export default class PansionService {
     })
   }
 
-
-  //CREATEEMPLOYEE
-  
+  //CREATEEMPLOYEE  
   createEmployee = async (
     first_name,
     last_name, 
@@ -159,6 +156,17 @@ export default class PansionService {
     })
   }
 
+
+//////////////////ROOMS//////////////////////////////////////////////////////////////////////////////////
+
+  //GETROOMS
+  getRooms = async () => {
+    return await this.doRequestAndParse('/rooms/', {
+      method:"GET",
+      headers:{ Authorization:"Bearer" + getAccessToken()}
+    })
+  }
+  
 //REQUEST_TO_SERVER
   doRequestAndParse = async (url, options) => {
     try {

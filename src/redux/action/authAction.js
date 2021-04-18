@@ -12,7 +12,7 @@ import {
 export const loadUser = () => async (dispatch, getState) => {
   dispatch(userLoading());
   const token = getState().auth.refreshToken;
-  console.log(token);
+  console.log("tokenIS:",token);
   if (token) {
     const result = await doRequestAndParse("/token/refresh/", {
       method: "POST",
