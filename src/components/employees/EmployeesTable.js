@@ -2,7 +2,7 @@ import {CRow, CCol, CDataTable, CButton} from '@coreui/react'
 import React, { useEffect } from 'react'
 
 
-function EmployeesTable ( {employees, onClickDelete }) {
+function EmployeesTable ( {employees, onClickDelete, onClickEdit }) {
 
     useEffect(() => {
         console.log(employees)
@@ -22,7 +22,7 @@ function EmployeesTable ( {employees, onClickDelete }) {
                     first_name:(item) => <td>{item.first_name}</td>,
                     last_name:(item) => <td>{item.last_name}</td>,
                     department:(item) => <td>{item.department}</td>,
-                    position:(item) => <td>{item.position}</td>,
+                    position:(item) => <td>{EmployeesPositions[item.position]}</td>,
                     actions: (item) => (
                         <td>
                             <CRow>
@@ -30,6 +30,7 @@ function EmployeesTable ( {employees, onClickDelete }) {
                                     <CButton 
                                         size="sm"
                                         color="info"
+                                        onClick={() => onClickEdit(item)}
                                     >
                                         Изменить
                                     </CButton>
@@ -74,6 +75,11 @@ const fields = [
         label:'',
         _style:{ width: "20%"}
     }
-
+   
 ]
+const EmployeesPositions = {
+    0:"Админ",
+    1:"Менеджер",
+    2:"Сотрудник"
+}
 export default EmployeesTable

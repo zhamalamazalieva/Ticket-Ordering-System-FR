@@ -2,6 +2,7 @@ import React, { useContext, useCallback , useState} from 'react'
 import { CButton, CModal, CModalBody, CModalFooter, CRow, CCol
 } from '@coreui/react'
 import PansionServiceContext from '../../context/PansionServiceContext';
+import MiniSpinner from '../spinners/MiniSpinner';
 
 
 function EmployeeDeleteModal ({
@@ -12,20 +13,26 @@ function EmployeeDeleteModal ({
 }){
     const PansionService = useContext(PansionServiceContext)
 
+    const [isLoading, setIsLoading] = useState(false)
     const [deleteError, setDeleteError] = useState(null)
 
     const onDelete = useCallback( async( id ) => {
-        const { hasError, data } = await PansionService.deleteEmployee(id)
+        setIsLoading(true)
+
+        const { hasError, data } = await PansionService.deleteEmployees(id)
         if( hasError ) {
-            setDeleteError(data.detail)
-            console.log('что то пошло не так')
+            setDeleteError('Не удалось удалить этого сотрудника')
         }
         else{
             closeDeleteConfirmModal();
             reFetchEmployees();
         }
+        setIsLoading(false)
     },[])
+
     console.log('EmployeeID:', selectedEmployee.id);
+
+
     return(
         <CModal
             show={isDeleteConfirmModalOpen}
@@ -38,12 +45,15 @@ function EmployeeDeleteModal ({
             </CModalBody>
             <CModalFooter>
                 <CRow>
-                    <CButton
-                        color="danger"
-                        onClick={ () => onDelete(selectedEmployee.id)}
-                    >               
-                    Удалить         
-                    </CButton>
+                    { isLoading ? <span><MiniSpinner/></span>:
+                         <CButton
+                         color="danger"
+                         onClick={ () => onDelete(selectedEmployee.id)}
+                     >               
+                     Удалить         
+                     </CButton>
+                    }
+               
                     <CButton
                         color="secondary"
                         onClick={ () => closeDeleteConfirmModal()}

@@ -25,8 +25,7 @@ function RoomsTable({ rooms, onEditClick }) {
         size="sm"
         sorter
         scopedSlots={{
-          number: (item) => <td>{item.name}</td>,
-          description: (item) => <td>{item.description}</td>,
+          number: (item) => <td>{item.title}</td>,
           seats: (item) => <td>{item.seats}</td>,
           category: (item) => <td>{item.category}</td>,
           status: (item) => (
@@ -35,7 +34,6 @@ function RoomsTable({ rooms, onEditClick }) {
             </td>
           ),
           price: (item) => <td>{item.price}</td>,
-          size: (item) => <td>{item.size}</td>,
           actions: (item) => (
             <td>
               <CRow>
@@ -71,10 +69,6 @@ const fields = [
     label: "Номер",
   },
   {
-    key: "description",
-    label: "Описание",
-  },
-  {
     key: "seats",
     label: "Количество мест",
   },
@@ -87,13 +81,8 @@ const fields = [
     label: "Цена",
   },
   {
-    key: "size",
-    label: "Размер",
-  },
-  {
     key: "actions",
     label: "",
-    // _style: { width: '30%' },
   },
 ];
 

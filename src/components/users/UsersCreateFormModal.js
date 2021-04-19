@@ -23,10 +23,12 @@ function UserCreateFormModal({
   users,
   reFetchUsers,
 }) {
+  
+  const PansionService = useContext(PansionServiceContext);
+
   const [isLoading, setIsLoading] = useState(false);
   const [createError, setCreateError] = useState(null);
   const [selectedRole, setSelectedRole] = useState(roles[0]);
-  const PansionService = useContext(PansionServiceContext);
 
   const [newUser, setNewUser] = useState({
     username: "",

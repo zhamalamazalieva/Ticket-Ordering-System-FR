@@ -1,5 +1,5 @@
 import React, { useEffect, Suspense, lazy } from "react";
-import { Redirect, useHistory, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import FullPageSpinner from '../../components/spinners/FullPageSpinner'
 import PrivateRoute from '../../containers/PrivateRoute'
 

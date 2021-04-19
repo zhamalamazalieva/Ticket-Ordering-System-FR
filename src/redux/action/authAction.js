@@ -37,6 +37,8 @@ export const loadUser = () => async (dispatch, getState) => {
 };
 
 export const login = (username, password) => async (dispatch) => {
+  console.log("dataaa: ", username, password);
+
   const result = await doRequestAndParse("/users/login/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

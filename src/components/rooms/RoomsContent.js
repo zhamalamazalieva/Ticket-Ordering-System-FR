@@ -26,7 +26,7 @@ function RoomsContent(props) {
     setIsLoading(true)
     const { hasError, data } = await PansionService.getRooms()
     if( hasError) {
-      console.log(hasError);
+      console.log("Ошибка с сервером видимо: ", hasError);
     }
     else{
       setRooms(data)
@@ -38,8 +38,7 @@ function RoomsContent(props) {
   useEffect(() => {
     fetchRooms()
   },[])
-
-
+  
   return (
     <>
       <CCard>
@@ -56,7 +55,7 @@ function RoomsContent(props) {
         <CCardBody>
           { isLoading ? <FullPageSpinner/> : (
           <RoomsTable
-           rooms={rooms.map( r => ({...r, size: `${r.latitude} ${r.longitude}`}))}
+           rooms={rooms}
            setRooms={setRooms}
           />)}
         </CCardBody>
