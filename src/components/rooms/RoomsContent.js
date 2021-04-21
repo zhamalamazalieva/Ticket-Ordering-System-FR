@@ -5,40 +5,60 @@ import {
   CCardBody,
   CCardHeader,
   CCol,
-  CModal,
-  CModalBody,
-  CModalFooter,
   CRow,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import RoomsTable from "./RoomsTable";
-import PansionServiceContext from '../../context/PansionServiceContext'
-import FullPageSpinner from '../../components/spinners/FullPageSpinner'
+import PansionServiceContext from "../../context/PansionServiceContext";
+import FullPageSpinner from "../../components/spinners/FullPageSpinner";
+import RoomsDeleteModalForm from "./RoomsDeleteModalForm";
+import RoomsDetails from './RoomsDetail'
 
 
 function RoomsContent(props) {
-  const [rooms, setRooms] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const PansionService = useContext(PansionServiceContext);
 
-  const PansionService = useContext(PansionServiceContext)
+  const [isLoading, setIsLoading] = useState(false);
+  const [rooms, setRooms] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState(null);
 
-  const fetchRooms =  useCallback( async () => {
-    setIsLoading(true)
-    const { hasError, data } = await PansionService.getRooms()
-    if( hasError) {
+  const [isDeleteModalFormOpen, setIsDeleteModalFormOpen] = useState(false);
+
+  //FETCHROOMS
+  const fetchRooms = useCallback(async () => {
+    setIsLoading(true);
+    const { hasError, data } = await PansionService.getRooms();
+    if (hasError) {
       console.log("Ошибка с сервером видимо: ", hasError);
+    } else {
+      setRooms(data);
     }
-    else{
-      setRooms(data)
-    }
-    setIsLoading(false)
-  }, [])
-
+    setIsLoading(false);
+    return null;
+  }, []);
 
   useEffect(() => {
-    fetchRooms()
-  },[])
-  
+    fetchRooms();
+  }, []);
+
+  //REFETCHROOMS
+  const reFetchRooms = useCallback(() => fetchRooms(), []);
+
+  //DELETEROOM
+  const openDeleteModalForm = useCallback(() => {
+    setIsDeleteModalFormOpen(true);
+  }, []);
+
+  const closeDeleteModalForm = useCallback(() => {
+    setIsDeleteModalFormOpen(false);
+  }, []);
+
+  const onClickDelete = useCallback((room) => {
+    setSelectedRoom(room);
+    openDeleteModalForm();
+  }, []);
+
+
   return (
     <>
       <CCard>
@@ -53,13 +73,32 @@ function RoomsContent(props) {
           </CRow>
         </CCardHeader>
         <CCardBody>
-          { isLoading ? <FullPageSpinner/> : (
-          <RoomsTable
-           rooms={rooms}
-           setRooms={setRooms}
-          />)}
+          {isLoading ? (
+            <FullPageSpinner />
+          ) : (
+            <RoomsTable
+             rooms={rooms}
+             onClickDelete={onClickDelete}
+             selectedRoom={selectedRoom}
+             />
+          )}
         </CCardBody>
       </CCard>
+      {selectedRoom && (
+        <RoomsDeleteModalForm
+          closeDeleteModalForm={closeDeleteModalForm}
+          isDeleteModalFormOpen={isDeleteModalFormOpen}
+          selectedRoom={selectedRoom}
+          reFetchRooms={reFetchRooms}
+        />
+      )}
+      { selectedRoom && (
+        <RoomsDetails
+          selectedRoom={selectedRoom}
+          reFetchRooms={reFetchRooms}
+
+        />
+      )}
     </>
   );
 }

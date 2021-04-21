@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext} from "react";
 import {
   CModal,
   CModalBody,
@@ -14,55 +14,30 @@ import {
 } from "@coreui/react";
 import PansionServiceContext from "../../context/PansionServiceContext";
 import MiniSpinner from "../spinners/MiniSpinner";
-import Select from "react-select";
 import { Formik } from "formik";
 
-function EmployeeCreateModalForm({
-  isFormModalOpen,
-  closeFormModal,
-  reFetchEmployees,
+function FlowCreateModalForm({
+  isCreateModalFormOpen,
+  closeCreateModalForm,
+  reFetchFlows,
 }) {
-  const PansionService = useContext(PansionServiceContext);
 
-  const [departments, setDepartments] = useState([]);
-  const [fetchDepartmentError, setFetchDepartmentError] = useState(null);
+  const PansionService = useContext(PansionServiceContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [createError, setCreateError] = useState(null);
 
-  const [selectedDepartment, setSelectedDepartment] = useState({});
-  const [selectedPosition, setSelectedPosition] = useState(positions[0]);
-
-  useEffect(() => {
-    const fetchDepartments = async () => {
-      const { hasError, data } = await PansionService.getDepartment();
-      if (hasError) {
-        setFetchDepartmentError("Произошла ошибка при загрузке отделов");
-      } else {
-        const dep = data.map((d) => ({ value: d.id, label: `${d.title}` }));
-        setDepartments(dep);
-        dep[0] && setSelectedDepartment(dep[0]);
-      }
-      return null;
-    };
-    fetchDepartments();
-  }, [PansionService]);
-
-
   const onSubmit = async (values) => {
-    console.log("Uspeshno");
 
     setIsLoading(true);
-    const { hasError, data } = await PansionService.createEmployees({
-      ...values,
-      department: selectedDepartment.value,
-      position: selectedPosition.value,
-    });
+    const { hasError, data } = await PansionService.createFlow(values.start_date, values.end_date, values.title, values.description);
     if (hasError) {
       console.log("errorrrrrr");
     } else {
-      reFetchEmployees();
-      closeFormModal();
+      reFetchFlows();
+      closeCreateModalForm()
+      console.log("Uspeshno");
+
     }
     setIsLoading(false);
   };
@@ -74,9 +49,8 @@ function EmployeeCreateModalForm({
       onSubmit={onSubmit}
       validate={(values) => {
         const errors = {};
-        !values.first_name && (errors.first_name = "Обязательное поле");
-        !values.last_name && (errors.last_name = "Обязательное поле");
-        console.log("owibka: ", errors);
+        !values.start_date && (errors.start_date = "Обязательное поле");
+        !values.end_date && (errors.end_date = "Обязательное поле");
         return errors;
       }}
     >
@@ -90,41 +64,42 @@ function EmployeeCreateModalForm({
         handleReset,
       }) => (
         <CModal
-          show={isFormModalOpen}
-          onClose={closeFormModal}
+          show={isCreateModalFormOpen}
+          onClose={closeCreateModalForm}
           size="sm"
           centered
         >
           <CModalBody>
             <CForm onSubmit={handleSubmit}>
               <CModalHeader closeButton>
-                Добавление нового сотрудника
+                Добавление нового потока
               </CModalHeader>
               <CModalBody>
                 <CRow>
                   <CCol>
                     <CFormGroup row>
                       <CCol xs="12">
-                        <CLabel htmlFor="first_name">Имя</CLabel>
+                        <CLabel htmlFor="start_date">Начало потока</CLabel>
                       </CCol>
                       <CCol xs="12">
                         <CInput
                           required
-                          id="first_name"
-                          value={values.first_name}
+                          id="start_date"
+                          value={values.start_date}
                           onChange={handleChange}
                           onBlur={handleBlur}
+                          type="date"
                           className={
-                            errors.first_name && touched.first_name
+                            errors.start_date && touched.start_date
                               ? "border-error"
                               : ""
                           }
                         />
                         {
                           <span className="text-danger">
-                            {errors.first_name &&
-                              touched.first_name &&
-                              errors.first_name}
+                            {errors.start_date &&
+                              touched.start_date &&
+                              errors.start_date}
                           </span>
                         }
                       </CCol>
@@ -135,13 +110,14 @@ function EmployeeCreateModalForm({
                   <CCol>
                     <CFormGroup row>
                       <CCol xs="12">
-                        <CLabel htmlFor="last_name">Фамилия</CLabel>
+                        <CLabel htmlFor="end_date">Конец потока</CLabel>
                       </CCol>
                       <CCol xs="12">
                         <CInput
                           required
-                          id="last_name"
-                          value={values.last_name}
+                          id="end_date"
+                          type="date"
+                          value={values.end_date}
                           onChange={handleChange}
                         />
                       </CCol>
@@ -152,20 +128,15 @@ function EmployeeCreateModalForm({
                   <CCol>
                     <CFormGroup row>
                       <CCol xs="12">
-                        <CLabel htmlFor="department">Отдел</CLabel>
+                        <CLabel htmlFor="title">Поток</CLabel>
                       </CCol>
                       <CCol xs="12">
-                        {fetchDepartmentError ? (
-                          <span className="text-danger">
-                            {fetchDepartmentError}
-                          </span>
-                        ) : (
-                          <Select
-                            options={departments}
-                            value={selectedDepartment}
-                            onChange={(s) => setSelectedDepartment(s)}
-                          />
-                        )}
+                        <CInput
+                          required
+                          id="title"
+                          value={values.title}
+                          onChange={handleChange}
+                        />
                       </CCol>
                     </CFormGroup>
                   </CCol>
@@ -174,14 +145,14 @@ function EmployeeCreateModalForm({
                   <CCol>
                     <CFormGroup row>
                       <CCol xs="12">
-                        <CLabel htmlFor="position">Должность</CLabel>
+                        <CLabel htmlFor="description">Описание</CLabel>
                       </CCol>
                       <CCol xs="12">
-                        <Select
-                          id="position"
-                          options={positions}
-                          value={selectedPosition}
-                          onChange={(s) => setSelectedPosition(s)}
+                        <CInput
+                          required
+                          id="description"
+                          value={values.description}
+                          onChange={handleChange}
                         />
                       </CCol>
                     </CFormGroup>
@@ -198,7 +169,7 @@ function EmployeeCreateModalForm({
                     Добавить
                   </CButton>
                 )}
-                <CButton color="secondary" onClick={closeFormModal}>
+                <CButton color="secondary" onClick={closeCreateModalForm}>
                   Cancel
                 </CButton>
               </CModalFooter>
@@ -210,21 +181,11 @@ function EmployeeCreateModalForm({
   );
 }
 const formValues = {
-  first_name: "",
-  last_name: "",
+  start_date: "",
+  end_date: "",
+  title: "",
+  description: "",
+
 };
-const positions = [
-  {
-    value: 1,
-    label: "Администратор",
-  },
-  {
-    value: 2,
-    label: "Менеджер",
-  },
-  {
-    value: 3,
-    label: "Сотрудник",
-  },
-];
-export default EmployeeCreateModalForm;
+
+export default FlowCreateModalForm;

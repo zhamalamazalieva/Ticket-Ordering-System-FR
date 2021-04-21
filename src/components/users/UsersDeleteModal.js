@@ -41,6 +41,7 @@ function UsersDeleteModal ({
                     <CButton
                         color="danger"
                         onClick={ () => onDelete(selectedUser.id)}
+                        className="mr-2"
                     >               
                     Удалить         
                     </CButton>

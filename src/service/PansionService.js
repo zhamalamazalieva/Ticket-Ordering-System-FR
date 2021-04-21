@@ -69,7 +69,6 @@ export default class PansionService {
   //CREATEUSERS
   createUser = async ({ username, password, first_name, last_name, role }) => {
     let userBody = { username, password, first_name, last_name, role };
-    console.log("gettt:", getAccessToken());
     return await this.doRequestAndParse("/users/register/", {
       method: "POST",
       headers: {
@@ -119,7 +118,7 @@ export default class PansionService {
     }
   };
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////EMPLOYEES//////////////////////////////////////////////////////////////////////
 
   //GETEMPLOYEES
   getEmployees = async () => {
@@ -131,7 +130,7 @@ export default class PansionService {
   };
 
   //CREATEEMPLOYEE
-  createEmployees = async ({ first_name, last_name, department, position}) => {
+  createEmployees = async ({ first_name, last_name, department, position }) => {
     return await this.doRequestAndParse("/employees/", {
       method: "POST",
       headers: {
@@ -167,7 +166,7 @@ export default class PansionService {
     first_name,
     last_name,
     department,
-    position
+    position,
   }) => {
     let userBody = { first_name, last_name, department, position };
 
@@ -181,7 +180,7 @@ export default class PansionService {
     });
   };
 
-  //////////////////ROOMS//////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////ROOMS//////////////////////////////////////////////////////////////////////
 
   //GETROOMS
   getRooms = async () => {
@@ -191,7 +190,84 @@ export default class PansionService {
     });
   };
 
-  //REQUEST_TO_SERVER
+  //GETROOMDETAILS
+  getRoomDetails = async (id) => {
+    return await this.doRequestAndParse(`/rooms/${id}/`, {
+      method: "GET",
+      headers: { Authorization: "Bearer " + getAccessToken() },
+    });
+  };
+
+  //DELETEROOMS
+  deleteRooms = async (id) => {
+    const res = await fetch(`/rooms/${id}/`, {
+      method: "DELETE",
+      headers: { Authorization: "Bearer " + getAccessToken() },
+    });
+    if (!res.ok) {
+      console.log("res:", res)
+      return { hasError: true };
+    } else {
+      return { hasError: false };
+    }
+  };
+
+  //////////////////FLOWS/////////////////////////////////////////////////////////////////////
+  //GETFLOWS
+  getFlows = async () => {
+    return await this.doRequestAndParse("/flows/", {
+      method: "GET",
+      headers: { Authorization: "Bearer " + getAccessToken() }
+    }); 
+  }
+  //DELETEFLOW
+  deleteFlow = async (id) => {
+    const res = await fetch(`/flows/${id}/`, {
+      method:"DELETE",
+      headers:{Authorization: "Bearer " + getAccessToken()}
+    })
+    if (!res.ok) {
+      console.log("res:", res)
+      return { hasError: true };
+    } else {
+      return { hasError: false };
+    }
+  }
+  //CREATEFLOW
+  createFlow = async ( start_date, end_date, title, description ) => {
+    return await this.doRequestAndParse('/flows/', {
+      method:"POST",
+      headers:{ 
+        "Content-Type": "application/json",
+        Authorization:" Bearer " + getAccessToken()},
+        body: JSON.stringify({
+          start_date,
+          end_date,
+          title, 
+          description
+        })
+    })
+
+  }
+  //UPDATEFLOW
+  updateFlow = async ( {id, start_date, end_date, title, description}) => {
+    return await this.doRequestAndParse(`/flows/${id}/`, {
+        method:"PATCH",
+        headers:{
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + getAccessToken()
+        },
+        body: JSON.stringify({
+          start_date,
+          end_date,
+          title,
+          description
+        })
+    })
+  }
+
+
+  //////////////REQUEST_TO_SERVER////////////////////////////////////////////////////////////
   doRequestAndParse = async (url, options) => {
     try {
       let hasError = false;

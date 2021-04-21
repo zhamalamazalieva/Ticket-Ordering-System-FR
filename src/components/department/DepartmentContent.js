@@ -6,86 +6,81 @@ import {
   CCardHeader,
   CCol,
   CRow,
-} from "@coreui/react"
-import DepartmentTable from "./DepartmentTable"
-import DepartmentCreateModalForm from "./DepartmentCreateModalForm"
-import DepartmentEditModalForm from "./DepartmentEditModalForm"
-import DepartmentDeleteModal from "./DepartmentDeleteModal"
-import PansionServiceContext from "../../context/PansionServiceContext"
-import FullPageSpinner from "../spinners/FullPageSpinner"
+} from "@coreui/react";
+import DepartmentTable from "./DepartmentTable";
+import DepartmentCreateModalForm from "./DepartmentCreateModalForm";
+import DepartmentEditModalForm from "./DepartmentEditModalForm";
+import DepartmentDeleteModal from "./DepartmentDeleteModal";
+import PansionServiceContext from "../../context/PansionServiceContext";
+import FullPageSpinner from "../spinners/FullPageSpinner";
 
+function DepartmentContent(props) {
+  const PansionService = useContext(PansionServiceContext);
 
-function DepartmentContent( props ) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [departments, setDepartments] = useState([]);
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
 
-  const PansionService = useContext(PansionServiceContext)
+  const [isCreateFormModalOpen, setIsCreateFormModalOpen] = useState(false);
+  const [isEditFormModalOpen, setIsEditFormModalOpen] = useState(false);
+  const [isDeleteConfirmModalOpen, setIsDeleteConfirmModalOpen] = useState(
+    false
+  );
 
-
-  const [isLoading, setIsLoading] = useState(false)
-  const [departments, setDepartments] = useState([])
-  const [selectedDepartment, setSelectedDepartment] = useState(null)
-
-
-  const [isCreateFormModalOpen, setIsCreateFormModalOpen] = useState(false)
-  const [isEditFormModalOpen, setIsEditFormModalOpen] = useState(false)
-  const [isDeleteConfirmModalOpen, setIsDeleteConfirmModalOpen] = useState(false);
-  
   //FETCH DEPARTMENT
-  const fetchDepartment = useCallback( async () => {
-    setIsLoading(true)
+  const fetchDepartment = useCallback(async () => {
+    setIsLoading(true);
     const { hasError, data } = await PansionService.getDepartment();
     if (hasError) {
-      console.log( hasError )
+      console.log(hasError);
     } else {
-      setDepartments(data)
+      setDepartments(data);
     }
-    setIsLoading(false)
-  }, [])
+    setIsLoading(false);
+  }, []);
 
-  
   useEffect(() => {
-    fetchDepartment()
-  }, [])
+    fetchDepartment();
+  }, []);
 
-  const reFetchDepartment = useCallback( async() =>
-   fetchDepartment(), [])
-
+  const reFetchDepartment = useCallback(async () => fetchDepartment(), []);
 
   //DELETE DEPARTMENT
   const openDeleteConfirmModal = useCallback(
-    () => setIsDeleteConfirmModalOpen(true),[])
+    () => setIsDeleteConfirmModalOpen(true),
+    []
+  );
 
   const closeDeleteConfirmModal = useCallback(
-    () => setIsDeleteConfirmModalOpen(false), [])
+    () => setIsDeleteConfirmModalOpen(false),
+    []
+  );
 
   const onDeleteClick = useCallback((department) => {
-    setSelectedDepartment(department)
-    openDeleteConfirmModal()
-  }, [])
+    setSelectedDepartment(department);
+    openDeleteConfirmModal();
+  }, []);
 
-  
-  //CREATE DEPARTMENT 
+  //CREATE DEPARTMENT
   const openCreateFormModal = useCallback(
-    () => setIsCreateFormModalOpen(true),[])
-  
-  const closeCreateFormModal = useCallback(
-    () => setIsCreateFormModalOpen(false),[])
-
-  
-  //EDIT DEPARTMENT
-  const openEditFormModal = useCallback(
-    () => setIsEditFormModalOpen(true), [])
-
-  const closeEditFormModal = useCallback(
-    () => setIsEditFormModalOpen(false),
+    () => setIsCreateFormModalOpen(true),
     []
-  )
+  );
+
+  const closeCreateFormModal = useCallback(
+    () => setIsCreateFormModalOpen(false),
+    []
+  );
+
+  //EDIT DEPARTMENT
+  const openEditFormModal = useCallback(() => setIsEditFormModalOpen(true), []);
+
+  const closeEditFormModal = useCallback(() => setIsEditFormModalOpen(false),[]);
 
   const onEditClick = useCallback((department) => {
-    setSelectedDepartment(department)
-    openEditFormModal()
-  }, [])
-
-
+    setSelectedDepartment(department);
+    openEditFormModal();
+  }, []);
 
   return (
     <>

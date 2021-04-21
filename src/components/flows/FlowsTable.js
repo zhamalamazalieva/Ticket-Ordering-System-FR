@@ -1,13 +1,12 @@
 import {CRow, CCol, CDataTable, CButton} from '@coreui/react'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 
-function EmployeesTable ( {employees, onClickDelete, onClickEdit }) {
-
+function FlowsTable ( {flows, onClickDelete, onClickEdit}) {
     return(
         <>
             <CDataTable
-                items={employees}
+                items={flows}
                 fields={fields}
                 hover
                 striped
@@ -15,10 +14,10 @@ function EmployeesTable ( {employees, onClickDelete, onClickEdit }) {
                 six="sm"
                 sorter
                 scopedSlots={{
-                    first_name:(item) => <td>{item.first_name}</td>,
-                    last_name:(item) => <td>{item.last_name}</td>,
-                    department:(item) => <td>{item.department}</td>,
-                    position:(item) => <td>{EmployeesPositions[item.position]}</td>,
+                    start_date:(item) => <td>{item.start_date}</td>,
+                    end_date:(item) => <td>{item.end_date}</td>,
+                    title:(item) => <td>{item.title}</td>,
+                    description:(item) => <td>{item.description}</td>,
                     actions: (item) => (
                         <td>
                             <CRow>
@@ -51,20 +50,20 @@ function EmployeesTable ( {employees, onClickDelete, onClickEdit }) {
 }
 const fields = [
     {
-        key:'first_name',
-        label:'Имя'
+        key:'start_date',
+        label:'Начало потока'
     },
     {
-        key:'last_name',
-        label:'Фамилия'
+        key:'end_date',
+        label:'Конец потока'
     },
     {
-        key:'department',
-        label:'Отдел'
+        key:'title',
+        label:'Поток №'
     },
     {
-        key:'position',
-        label:'Должность'
+        key:'description',
+        label:'Описание'
     },
     {
         key:'actions',
@@ -73,9 +72,5 @@ const fields = [
     }
    
 ]
-const EmployeesPositions = {
-    0:"Админ",
-    1:"Менеджер",
-    2:"Сотрудник"
-}
-export default EmployeesTable
+
+export default FlowsTable

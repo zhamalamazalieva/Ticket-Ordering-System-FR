@@ -34,7 +34,8 @@ import {
   cifIn,
   cifFr,
   cifEs,
-  cifPl
+  cifPl,
+  cifKg,
 } from '@coreui/icons'
 import {
   cilAlignCenter,
@@ -127,7 +128,9 @@ import {
   cilUserUnfollow,
   cilX,
   cilXCircle,
-  cilWarning
+  cilWarning,
+  cilRoom,
+  cilStorage
 } from '@coreui/icons'
 
 export const icons = Object.assign({}, {
@@ -225,14 +228,17 @@ export const icons = Object.assign({}, {
   cilUserUnfollow,
   cilX,
   cilXCircle,
-  cilWarning
+  cilWarning,
+  cilRoom,
+  cilStorage
 }, {
   cifUs,
   cifBr,
   cifIn,
   cifFr,
   cifEs,
-  cifPl
+  cifPl,
+  cifKg,
 }, {
   cibSkype,
   cibFacebook,

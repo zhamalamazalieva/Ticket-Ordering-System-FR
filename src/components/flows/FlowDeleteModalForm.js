@@ -5,11 +5,11 @@ import PansionServiceContext from '../../context/PansionServiceContext';
 import MiniSpinner from '../spinners/MiniSpinner';
 
 
-function EmployeeDeleteModal ({
-    reFetchEmployees,
-    closeDeleteConfirmModal,
-    isDeleteConfirmModalOpen,
-    selectedEmployee
+function FlowDeleteModalForm ({
+    reFetchFlows,
+    selectedFlow,
+    closeDeleteModalForm,
+    isDeleteModalFormOpen,
 }){
     const PansionService = useContext(PansionServiceContext)
 
@@ -19,37 +19,37 @@ function EmployeeDeleteModal ({
     const onDelete = useCallback( async( id ) => {
         setIsLoading(true)
 
-        const { hasError, data } = await PansionService.deleteEmployees(id)
+        const { hasError, data } = await PansionService.deleteFlow(id)
         if( hasError ) {
-            setDeleteError('Не удалось удалить этого сотрудника')
+            console.log(selectedFlow.id)
+            setDeleteError('Не удалось удалить этого сотрудника', hasError)
         }
         else{
-            closeDeleteConfirmModal();
-            reFetchEmployees();
+            reFetchFlows();
+            closeDeleteModalForm();
+
         }
         setIsLoading(false)
     },[])
 
-    console.log('EmployeeID:', selectedEmployee.id);
-
 
     return(
         <CModal
-            show={isDeleteConfirmModalOpen}
-            onclose={closeDeleteConfirmModal}
+            show={isDeleteModalFormOpen}
+            onclose={closeDeleteModalForm}
             size="sm"
             centered
         >
             <CModalBody>
-                Вы уверены, что хотите удалить этого сотрудника из списка?
+                Вы уверены, что хотите удалить этот поток из списка?
             </CModalBody>
             <CModalFooter>
                 <CRow>
                     { isLoading ? <span><MiniSpinner/></span>:
                          <CButton
                          color="danger"
-                         onClick={ () => onDelete(selectedEmployee.id)}
-                         className="mr-2"
+                         onClick={() => onDelete(selectedFlow.id)}
+                        className="mr-2"
                      >               
                      Удалить         
                      </CButton>
@@ -57,7 +57,7 @@ function EmployeeDeleteModal ({
                
                     <CButton
                         color="secondary"
-                        onClick={ () => closeDeleteConfirmModal()}
+                        onClick={ () => closeDeleteModalForm()}
                     >               
                     Отмена        
                     </CButton>
@@ -73,4 +73,4 @@ function EmployeeDeleteModal ({
         </CModal>
     )
 }
-export default EmployeeDeleteModal;
+export default FlowDeleteModalForm;

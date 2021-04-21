@@ -1,21 +1,23 @@
 import React, { useEffect, Suspense, lazy } from "react";
 import { Switch, Route } from "react-router-dom";
-import FullPageSpinner from '../../components/spinners/FullPageSpinner'
-import PrivateRoute from '../../containers/PrivateRoute'
+import FullPageSpinner from "../../components/spinners/FullPageSpinner";
+import PrivateRoute from "../../containers/PrivateRoute";
 
-
-const Login = React.lazy(() => import('../login/Login'))
-const Page404 = React.lazy(() => import('../page404/Page404'))
-const HomePage = React.lazy(() => import('../home/HomePage'))
-const Departments = React.lazy(() => import('../departments/Departments'))
-const Rooms = React.lazy(() => import('../rooms/Rooms'))
-const Users = React.lazy(() => import('../users/Users'))
-const Employees = React.lazy(() => import('../employees/Employees'))
-
+const Login = React.lazy(() => import("../login/Login"));
+const Page404 = React.lazy(() => import("../page404/Page404"));
+const HomePage = React.lazy(() => import("../home/HomePage"));
+const Departments = React.lazy(() => import("../departments/Departments"));
+const Rooms = React.lazy(() => import("../rooms/Rooms"));
+const Users = React.lazy(() => import("../users/Users"));
+const Employees = React.lazy(() => import("../employees/Employees"));
+const RoomsDetails = React.lazy(() =>
+  import("../../components/rooms/RoomsDetail")
+);
+const Flows = React.lazy(() => import("../flows/Flows"))
 
 function Routes() {
   return (
-    <Suspense fallback={<FullPageSpinner/>}>
+    <Suspense fallback={<FullPageSpinner />}>
       <Switch>
         <Route exact path="/login">
           <Login />
@@ -35,9 +37,15 @@ function Routes() {
         <PrivateRoute exact path="/employees">
           <Employees />
         </PrivateRoute>
-        <PrivateRoute path="">
-          <Page404 />
+        <PrivateRoute exact path="/roomdetails/:roomId">
+          <RoomsDetails />
         </PrivateRoute>
+        <PrivateRoute exact path="/flows">
+          <Flows />
+        </PrivateRoute>
+        <Route path="">
+          <Page404 />
+        </Route>
       </Switch>
     </Suspense>
   );

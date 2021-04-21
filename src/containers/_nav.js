@@ -10,7 +10,7 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Пользователи',
     to: '/users',
-    icon: 'cil-contact',
+    icon: 'cilUser',
   },
   {
     _tag: 'CSidebarNavTitle',
@@ -20,7 +20,7 @@ const _nav =  [
     _tag: 'CSidebarNavItem',
     name: 'Номер',
     to: '/rooms',
-    icon: 'hotel',   
+    icon: 'cilRoom',   
   },
   {
     _tag: 'CSidebarNavItem',
@@ -32,13 +32,13 @@ const _nav =  [
 
   {
     _tag: 'CSidebarNavTitle',
-    _children: ['Бронирование']
+    _children: ['Клиенты']
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Отдел',
     to: '/departments',
-    icon:'cil-building',
+    icon:'cilStorage',
    
   },
   {

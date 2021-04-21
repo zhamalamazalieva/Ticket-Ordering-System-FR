@@ -12,17 +12,18 @@ import EmployeeCreateModalForm from "./EmployeeCreateModalForm";
 import EmployeeDeleteModal from "./EmployeeDeleteModal";
 import EmployeesTable from "./EmployeesTable";
 import EmployeeEditModalForm from "./EmployeeEditModalForm";
+import FullPageSpinner from "../spinners/FullPageSpinner";
 
 function EmployeesContent(props) {
+
   const PansionService = useContext(PansionServiceContext);
 
   const [isLoading, setIsLoading] = useState(false);
+
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
-  const [isDeleteConfirmModalOpen, setIsDeleteConfirmModalOpen] = useState(
-    false
-  );
+  const [isDeleteConfirmModalOpen, setIsDeleteConfirmModalOpen] = useState(false);
   const [isCreateFormModalOpen, setIsCreateFormModalOpen] = useState(false);
   const [isEditModalFormOpen, setIsEditModalFormOpen] = useState(false);
 
@@ -38,10 +39,12 @@ function EmployeesContent(props) {
     setIsLoading(false);
   }, []);
 
+
   useEffect(() => {
     fetchEmployees();
   }, []);
 
+  //REFETCHEMPLOYEES
   const reFetchEmployees = useCallback(async () => {
     fetchEmployees();
   }, []);
@@ -55,7 +58,6 @@ function EmployeesContent(props) {
     async () => setIsDeleteConfirmModalOpen(false),
     []
   );
-
   const onClickDelete = useCallback((employee) => {
     setSelectedEmployee(employee);
     openDeleteConfirmModal();
@@ -101,12 +103,12 @@ function EmployeesContent(props) {
           </CRow>
         </CCardHeader>
         <CCardBody>
-          {isLoading ? "Loading..." : ""}
+          {isLoading ? <FullPageSpinner/> : (
           <EmployeesTable
             employees={employees}
             onClickDelete={onClickDelete}
             onClickEdit={onClickEdit}
-          />
+          />)}
         </CCardBody>
       </CCard>
       {isCreateFormModalOpen && (

@@ -23,15 +23,14 @@ function EmployeeEditModalForm({
   reFetchEmployees,
   selectedEmployee,
 }) {
-
-  const PansionService = useContext(PansionServiceContext);
-
   const formValues = {
     first_name: selectedEmployee.first_name,
     last_name: selectedEmployee.last_name,
     department: selectedEmployee.department,
     position: selectedEmployee.position,
   };
+
+  const PansionService = useContext(PansionServiceContext);
 
   const [selectedPosition, setSelectedPosition] = useState(positions[0]);
   const [selectedDepartment, setSelectedDepartment] = useState({});
@@ -42,8 +41,8 @@ function EmployeeEditModalForm({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const fetchDepartment =  async () => {
-      setIsLoading(true)
+    const fetchDepartment = async () => {
+      setIsLoading(true);
       const { hasError, data } = await PansionService.getDepartment();
 
       if (hasError) {
@@ -57,7 +56,6 @@ function EmployeeEditModalForm({
     fetchDepartment();
   }, [PansionService]);
 
-
   // useEffect(() => {
   //   const department = departments.find(dep => dep.value === selectedEmployee.department)
 
@@ -66,18 +64,17 @@ function EmployeeEditModalForm({
   //   }
   // }, [departments, selectedEmployee.department])
 
-  console.log(isLoading, " load")
+  console.log(isLoading, " load");
   const onSubmit = async (values) => {
     setIsLoading(true);
 
     const { hasError, data } = await PansionService.updateEmployee({
-      id:selectedEmployee.id,
-      first_name:values.first_name,
-      last_name:values.last_name,
-      department:selectedDepartment.value,
-      position:selectedPosition.value,
+      id: selectedEmployee.id,
+      first_name: values.first_name,
+      last_name: values.last_name,
+      department: selectedDepartment.value,
+      position: selectedPosition.value,
     });
-  
 
     if (hasError) {
       console.log("Ошибка какая то:", hasError);
@@ -238,7 +235,7 @@ function EmployeeEditModalForm({
                     <CButton color="primary" type="submit" className="mr-4">
                       Изменить
                     </CButton>
-                  )} 
+                  )}
                   <CButton
                     color="secondary"
                     onClick={() => {

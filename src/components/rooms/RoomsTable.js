@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect} from "react";
 import { CRow, CCol, CDataTable, CButton, CBadge } from "@coreui/react";
+import { Link } from 'react-router-dom'
 
 
 const getBadge = (status) => {
@@ -13,7 +14,13 @@ const getBadge = (status) => {
   }
 };
 
-function RoomsTable({ rooms, onEditClick }) {
+function RoomsTable({ rooms, onClickDelete, selectedRoom }) {
+
+  useEffect(() => {
+    console.log(rooms);
+  }, []);
+
+
   return (
     <>
       <CDataTable
@@ -37,19 +44,21 @@ function RoomsTable({ rooms, onEditClick }) {
           actions: (item) => (
             <td>
               <CRow>
-                <CCol>
+              <CCol>
                   <CButton
                     size="sm"
                     color="info"
-                    onClick={() => onEditClick(item)}
                   >
-                    Изменить
+                    <Link style={{ textDecoration: 'none', color:'white' }} to={`/roomDetails/${item.id}`}>
+                        Посмотреть
+                    </Link>
                   </CButton>
                 </CCol>
                 <CCol>
                   <CButton
                     size="sm"
                     color="danger"
+                    onClick={() => onClickDelete(item)}
                   >
                     Удалить
                   </CButton>
