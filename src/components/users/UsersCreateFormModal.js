@@ -23,7 +23,6 @@ function UserCreateFormModal({
   users,
   reFetchUsers,
 }) {
-  
   const PansionService = useContext(PansionServiceContext);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -42,16 +41,17 @@ function UserCreateFormModal({
     setNewUser({
       first_name: e.target.form[1].value,
       last_name: e.target.form[2].value,
-      role: setSelectedRole(selectedRole),
       username: e.target.form[4].value,
       password: e.target.form[5].value,
-
     });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const { data } = await PansionService.createUser(newUser);
+    const { data } = await PansionService.createUser({
+      ...newUser,
+      role: selectedRole.value,
+    });
     setUsers([...users, data]);
     closeFormModal();
     setNewUser({
@@ -72,7 +72,7 @@ function UserCreateFormModal({
             Добавление нового пользователя
           </CModalHeader>
           <CModalBody>
-          <CRow>
+            <CRow>
               <CCol>
                 <CFormGroup row>
                   <CCol xs="12">
@@ -160,7 +160,6 @@ function UserCreateFormModal({
                 </CFormGroup>
               </CCol>
             </CRow>
-           
           </CModalBody>
           <CModalFooter>
             {isLoading ? (
@@ -186,7 +185,6 @@ const roles = [
   { value: 0, label: "Администратор" },
   { value: 1, label: "Менеджер" },
   { value: 2, label: "Сотрудник" },
-
 ];
 
 export default UserCreateFormModal;

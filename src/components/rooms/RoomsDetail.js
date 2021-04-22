@@ -58,16 +58,24 @@ function RoomsDetails({
                     <CCol className="col-3">
                       <h6>Номер:</h6>
                     </CCol>
-                    <CCol className="border border-secondary rounded col-9 p-2">
+                    <CCol className="b-shadow rounded col-9 p-2">
                       {room.title}
+                    </CCol>
+                  </CRow>
+                  <CRow className="mb-3">
+                    <CCol className="col-3">
+                      <h6>Описание:</h6>
+                    </CCol>
+                    <CCol className="b-shadow rounded col-9 p-2">
+                      {room.description}
                     </CCol>
                   </CRow>
                   <CRow>
                     <CCol className="col-3">
-                      <h6>Описание:</h6>
+                      <h6>Категория номера:</h6>
                     </CCol>
-                    <CCol className="border border-secondary rounded col-9 p-2">
-                      {room.description}
+                    <CCol className="b-shadow rounded col-9 p-2">
+                      {room.category}
                     </CCol>
                   </CRow>
                 </CCol>
@@ -76,7 +84,7 @@ function RoomsDetails({
                     <CCol className="col-5">
                       <h6>Количество мест:</h6>
                     </CCol>
-                    <CCol className="border border-secondary rounded col-4 p-2">
+                    <CCol className="b-shadow rounded col-4 p-2">
                       {room.seats}
                     </CCol>
                   </CRow>
@@ -84,7 +92,7 @@ function RoomsDetails({
                     <CCol className="col-5">
                       <h6>Цена:</h6>
                     </CCol>
-                    <CCol className="border border-secondary rounded col-4 p-2">
+                    <CCol className="b-shadow rounded col-4 p-2">
                       {room.price}
                     </CCol>
                   </CRow>

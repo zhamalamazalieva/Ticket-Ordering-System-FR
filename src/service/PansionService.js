@@ -1,6 +1,5 @@
 export default class PansionService {
   /////////////////////DEPARTMENTS//////////////////////////////////////////////////////////////////
-
   //GETDEPARTMENT
   getDepartment = async () => {
     return this.doRequestAndParse("/departments/", {
@@ -57,7 +56,6 @@ export default class PansionService {
   };
 
   //////////////////////USERS/////////////////////////////////////////////////////////////////////////
-
   //GETUSERS
   getUsers = async () => {
     return await this.doRequestAndParse("/users/", {
@@ -95,7 +93,7 @@ export default class PansionService {
     }
 
     return await this.doRequestAndParse(`/users/${id}/`, {
-      method: "PATCH",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + getAccessToken(),
@@ -119,11 +117,17 @@ export default class PansionService {
   };
 
   /////////////////////EMPLOYEES//////////////////////////////////////////////////////////////////////
-
   //GETEMPLOYEES
   getEmployees = async () => {
     console.log("console::", getAccessToken());
     return await this.doRequestAndParse("http://159.65.125.72/api/employees/", {
+      method: "GET",
+      headers: { Authorization: "Bearer " + getAccessToken() },
+    });
+  };
+  //GETEMPLOYEEBYPOSITIONID
+  getEmployeesByPositionId = async (positionId) => {
+    return await this.doRequestAndParse(`/room-categories/${positionId}/`, {
       method: "GET",
       headers: { Authorization: "Bearer " + getAccessToken() },
     });
@@ -171,7 +175,7 @@ export default class PansionService {
     let userBody = { first_name, last_name, department, position };
 
     return await this.doRequestAndParse(`/employees/${id}/`, {
-      method: "PATCH",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + getAccessToken(),
@@ -183,7 +187,7 @@ export default class PansionService {
   ///////////////////////ROOMS//////////////////////////////////////////////////////////////////////
 
   //GETROOMS
-  getRooms = async () => {
+  getRooms = async (category_id) => {
     return await this.doRequestAndParse("/rooms/", {
       method: "GET",
       headers: { Authorization: "Bearer " + getAccessToken() },
@@ -198,6 +202,14 @@ export default class PansionService {
     });
   };
 
+  //GETROOMSBYCATEGORYID
+  getRoomsByCategoryId = async (categoryId) => {
+    return await this.doRequestAndParse(`/room-categories/${categoryId}/`, {
+      method: "GET",
+      headers: { Authorization: "Bearer " + getAccessToken() },
+    });
+  };
+
   //DELETEROOMS
   deleteRooms = async (id) => {
     const res = await fetch(`/rooms/${id}/`, {
@@ -205,11 +217,104 @@ export default class PansionService {
       headers: { Authorization: "Bearer " + getAccessToken() },
     });
     if (!res.ok) {
-      console.log("res:", res)
+      console.log("res:", res);
       return { hasError: true };
     } else {
       return { hasError: false };
     }
+  };
+
+  //CREATEROOM
+  createRoom = async ({
+    title,
+    description,
+    seats,
+    category,
+    latitude,
+    longitude,
+  }) => {
+    return await this.doRequestAndParse("/rooms/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + getAccessToken(),
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        seats,
+        category,
+        latitude,
+        longitude,
+      }),
+    });
+  };
+  //UPDATEROOM
+  updateRoom = async ({ id, title, description, seats, category }) => {
+    return await this.doRequestAndParse(`/rooms/${id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + getAccessToken(),
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        seats,
+        category,
+      }),
+    });
+  };
+
+  //////////////ROOMCATEGORIES//////////////////////////////////////////////////////////////
+
+  //GETROOMCATEGORIES
+  getCategories = async () => {
+    return await this.doRequestAndParse("/room-categories/", {
+      method: "GET",
+      headers: { Authorization: "Bearer " + getAccessToken() },
+    });
+  };
+  //DELETEROOMCATEGORY
+  deleteCategory = async (id) => {
+    const res = await fetch(`/room-categories/${id}/`, {
+      method: "DELETE",
+      headers: { Authorization: "Bearer " + getAccessToken() },
+    });
+    if (!res.ok) {
+      console.log("res:", res);
+      return { hasError: true };
+    } else {
+      return { hasError: false };
+    }
+  };
+  //CREATEROOMCATEGORY
+  createCategory = async (title, description) => {
+    return await this.doRequestAndParse("/room-categories/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + getAccessToken(),
+      },
+      body: JSON.stringify({
+        title,
+        description,
+      }),
+    });
+  };
+  //UPDATEROOMCATEGORY
+  updateCategory = async ({ id, title, description }) => {
+    return await this.doRequestAndParse(`/room-categories/${id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + getAccessToken(),
+      },
+      body: JSON.stringify({
+        title,
+        description,
+      }),
+    });
   };
 
   //////////////////FLOWS/////////////////////////////////////////////////////////////////////
@@ -217,56 +322,106 @@ export default class PansionService {
   getFlows = async () => {
     return await this.doRequestAndParse("/flows/", {
       method: "GET",
-      headers: { Authorization: "Bearer " + getAccessToken() }
-    }); 
-  }
+      headers: { Authorization: "Bearer " + getAccessToken() },
+    });
+  };
   //DELETEFLOW
   deleteFlow = async (id) => {
     const res = await fetch(`/flows/${id}/`, {
-      method:"DELETE",
-      headers:{Authorization: "Bearer " + getAccessToken()}
-    })
+      method: "DELETE",
+      headers: { Authorization: "Bearer " + getAccessToken() },
+    });
     if (!res.ok) {
-      console.log("res:", res)
+      console.log("res:", res);
       return { hasError: true };
     } else {
       return { hasError: false };
     }
-  }
+  };
   //CREATEFLOW
-  createFlow = async ( start_date, end_date, title, description ) => {
-    return await this.doRequestAndParse('/flows/', {
-      method:"POST",
-      headers:{ 
+  createFlow = async (start_date, end_date, title, description) => {
+    return await this.doRequestAndParse("/flows/", {
+      method: "POST",
+      headers: {
         "Content-Type": "application/json",
-        Authorization:" Bearer " + getAccessToken()},
-        body: JSON.stringify({
-          start_date,
-          end_date,
-          title, 
-          description
-        })
-    })
-
-  }
+        Authorization: " Bearer " + getAccessToken(),
+      },
+      body: JSON.stringify({
+        start_date,
+        end_date,
+        title,
+        description,
+      }),
+    });
+  };
   //UPDATEFLOW
-  updateFlow = async ( {id, start_date, end_date, title, description}) => {
+  updateFlow = async ({ id, start_date, end_date, title, description }) => {
     return await this.doRequestAndParse(`/flows/${id}/`, {
-        method:"PATCH",
-        headers:{
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + getAccessToken()
-        },
-        body: JSON.stringify({
-          start_date,
-          end_date,
-          title,
-          description
-        })
-    })
-  }
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + getAccessToken(),
+      },
+      body: JSON.stringify({
+        start_date,
+        end_date,
+        title,
+        description,
+      }),
+    });
+  };
 
 
+  //////////////////POSITIONS/////////////////////////////////////////////////////////////////////
+  //GETPOSITIONS
+  getPositions = async () => {
+    return await this.doRequestAndParse("/positions/", {
+      method: "GET",
+      headers: { Authorization: "Bearer " + getAccessToken() },
+    });
+  };
+
+  //DELETEPOSITIONS  
+  deletePosition = async (id) => {
+    const res = await fetch(`/positions/${id}/`, {
+      method: "DELETE",
+      headers: { Authorization: "Bearer " + getAccessToken() },
+    });
+    if (!res.ok) {
+      console.log("res:", res);
+      return { hasError: true };
+    } else {
+      return { hasError: false };
+    }
+  };
+  //CREATEPOSITIONS
+  createPosition = async (title, description) => {
+    return await this.doRequestAndParse("/positions/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: " Bearer " + getAccessToken(),
+      },
+      body: JSON.stringify({
+        title,
+        description,
+      }),
+    });
+  };
+  //UPDATEPOSITIONS
+  updatePosition = async ({ id,title, description }) => {
+    return await this.doRequestAndParse(`/positions/${id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + getAccessToken(),
+      },
+      body: JSON.stringify({
+        title,
+        description,
+      }),
+    });
+  };
   //////////////REQUEST_TO_SERVER////////////////////////////////////////////////////////////
   doRequestAndParse = async (url, options) => {
     try {
@@ -286,4 +441,5 @@ export default class PansionService {
     }
   };
 }
+
 const getAccessToken = () => localStorage.getItem("access_token_pansion");

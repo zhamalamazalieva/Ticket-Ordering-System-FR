@@ -130,7 +130,8 @@ import {
   cilXCircle,
   cilWarning,
   cilRoom,
-  cilStorage
+  cilStorage,
+  cilLoopCircular
 } from '@coreui/icons'
 
 export const icons = Object.assign({}, {
@@ -230,7 +231,8 @@ export const icons = Object.assign({}, {
   cilXCircle,
   cilWarning,
   cilRoom,
-  cilStorage
+  cilStorage,
+  cilLoopCircular
 }, {
   cifUs,
   cifBr,

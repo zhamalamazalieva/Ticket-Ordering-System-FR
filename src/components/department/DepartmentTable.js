@@ -62,7 +62,7 @@ const fields = [
     {
         key: "actions",
         label: "",
-        _style: { width: "35%" },
+        _style: { width: "20%" },
     },
 ];
 

@@ -12,17 +12,19 @@ import RoomsTable from "./RoomsTable";
 import PansionServiceContext from "../../context/PansionServiceContext";
 import FullPageSpinner from "../../components/spinners/FullPageSpinner";
 import RoomsDeleteModalForm from "./RoomsDeleteModalForm";
-import RoomsDetails from './RoomsDetail'
-
+import RoomsDetails from "./RoomsDetail";
+import RoomEditModalForm from "./RoomEditModalForm";
+import RoomCreateModalForm from "./RoomCreateModalForm";
 
 function RoomsContent(props) {
   const PansionService = useContext(PansionServiceContext);
-
   const [isLoading, setIsLoading] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
 
   const [isDeleteModalFormOpen, setIsDeleteModalFormOpen] = useState(false);
+  const [isEditModalFormOpen, setIsEditModalFormOpen] = useState(false);
+  const [isCreateModalFormOpen, setIsCreateModalFormOpen] = useState(false);
 
   //FETCHROOMS
   const fetchRooms = useCallback(async () => {
@@ -58,7 +60,25 @@ function RoomsContent(props) {
     openDeleteModalForm();
   }, []);
 
+  //UPDATEROOM
+  const openEditModalForm = useCallback(() => {
+    setIsEditModalFormOpen(true);
+  });
+  const closeEditModalForm = useCallback(() => {
+    setIsEditModalFormOpen(false);
+  });
+  const onClickEdit = useCallback((room) => {
+    setSelectedRoom(room);
+    openEditModalForm();
+  });
 
+  //CREATEROOM
+  const openCreateModalForm = useCallback(() => {
+    setIsCreateModalFormOpen(true);
+  });
+  const closeCreateModalForm = useCallback(() => {
+    setIsCreateModalFormOpen(false);
+  });
   return (
     <>
       <CCard>
@@ -66,7 +86,11 @@ function RoomsContent(props) {
           <CRow>
             <CCol>Управление номерами</CCol>
             <CCol>
-              <CButton color="primary" className="float-right">
+              <CButton
+                color="primary"
+                className="float-right"
+                onClick={openCreateModalForm}
+              >
                 <span className="mr-3">Добавить номер</span>
               </CButton>
             </CCol>
@@ -77,13 +101,21 @@ function RoomsContent(props) {
             <FullPageSpinner />
           ) : (
             <RoomsTable
-             rooms={rooms}
-             onClickDelete={onClickDelete}
-             selectedRoom={selectedRoom}
-             />
+              rooms={rooms}
+              onClickDelete={onClickDelete}
+              onClickEdit={onClickEdit}
+              selectedRoom={selectedRoom}
+            />
           )}
         </CCardBody>
       </CCard>
+      {isCreateModalFormOpen && (
+        <RoomCreateModalForm
+          closeCreateModalForm={closeCreateModalForm}
+          isCreateModalFormOpen={isCreateModalFormOpen}
+          reFetchRooms={reFetchRooms}
+        />
+      )}
       {selectedRoom && (
         <RoomsDeleteModalForm
           closeDeleteModalForm={closeDeleteModalForm}
@@ -92,11 +124,15 @@ function RoomsContent(props) {
           reFetchRooms={reFetchRooms}
         />
       )}
-      { selectedRoom && (
-        <RoomsDetails
-          selectedRoom={selectedRoom}
+      {selectedRoom && (
+        <RoomsDetails selectedRoom={selectedRoom} reFetchRooms={reFetchRooms} />
+      )}
+      {selectedRoom && (
+        <RoomEditModalForm
+          isEditModalFormOpen={isEditModalFormOpen}
+          closeEditModalForm={closeEditModalForm}
           reFetchRooms={reFetchRooms}
-
+          selectedRoom={selectedRoom}
         />
       )}
     </>

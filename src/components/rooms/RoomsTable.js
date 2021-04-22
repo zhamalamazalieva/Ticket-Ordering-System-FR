@@ -14,13 +14,7 @@ const getBadge = (status) => {
   }
 };
 
-function RoomsTable({ rooms, onClickDelete, selectedRoom }) {
-
-  useEffect(() => {
-    console.log(rooms);
-  }, []);
-
-
+function RoomsTable({ rooms, onClickDelete, onClickEdit}) {
   return (
     <>
       <CDataTable
@@ -44,10 +38,11 @@ function RoomsTable({ rooms, onClickDelete, selectedRoom }) {
           actions: (item) => (
             <td>
               <CRow>
-              <CCol>
+                <CCol>
                   <CButton
                     size="sm"
                     color="info"
+                    className="ml-2"
                   >
                     <Link style={{ textDecoration: 'none', color:'white' }} to={`/roomDetails/${item.id}`}>
                         Посмотреть
@@ -57,8 +52,19 @@ function RoomsTable({ rooms, onClickDelete, selectedRoom }) {
                 <CCol>
                   <CButton
                     size="sm"
+                    color="primary"
+                    onClick={() => onClickEdit(item)}
+                    className="ml-2"
+                  >
+                    Изменить
+                  </CButton>
+                </CCol>
+                <CCol>
+                  <CButton
+                    size="sm"
                     color="danger"
                     onClick={() => onClickDelete(item)}
+                    className="ml-2"
                   >
                     Удалить
                   </CButton>
@@ -92,6 +98,7 @@ const fields = [
   {
     key: "actions",
     label: "",
+    _style:{ width: "30%"}
   },
 ];
 

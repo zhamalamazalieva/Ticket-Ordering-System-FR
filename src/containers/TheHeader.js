@@ -68,7 +68,7 @@ const TheHeader = () => {
           <CHeaderNavLink to="/rooms">Номера</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/df">Поток</CHeaderNavLink>
+          <CHeaderNavLink to="/flows">Поток</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
           <CHeaderNavLink to="/users">Пользователи</CHeaderNavLink>

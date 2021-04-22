@@ -13,7 +13,11 @@ const Employees = React.lazy(() => import("../employees/Employees"));
 const RoomsDetails = React.lazy(() =>
   import("../../components/rooms/RoomsDetail")
 );
-const Flows = React.lazy(() => import("../flows/Flows"))
+const Flows = React.lazy(() => import("../flows/Flows"));
+const Categories = React.lazy(() => import("../categories/Categories"));
+const RoomsByCategory = React.lazy(() => import("../rooms/RoomsByCategory"));
+const Positions = React.lazy(() => import("../positions/Positions"));
+const EmployeesByPosition = React.lazy(() => import("../employees/EmployeesByPosition"))
 
 function Routes() {
   return (
@@ -42,6 +46,18 @@ function Routes() {
         </PrivateRoute>
         <PrivateRoute exact path="/flows">
           <Flows />
+        </PrivateRoute>
+        <PrivateRoute exact path="/categories">
+          <Categories />
+        </PrivateRoute>
+        <PrivateRoute exact path="/categories/:categoryId">
+          <RoomsByCategory />
+        </PrivateRoute>
+        <PrivateRoute exact path="/positions">
+          <Positions />
+        </PrivateRoute>
+        <PrivateRoute exact path="/positions/:positionId">
+          <EmployeesByPosition />
         </PrivateRoute>
         <Route path="">
           <Page404 />

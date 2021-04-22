@@ -1,9 +1,8 @@
 import {CRow, CCol, CDataTable, CButton} from '@coreui/react'
-import React, { useEffect } from 'react'
-
+import React, { useEffect, useState, useContext } from 'react'
+import PansionServiceContext from '../../context/PansionServiceContext'
 
 function EmployeesTable ( {employees, onClickDelete, onClickEdit }) {
-
     return(
         <>
             <CDataTable
@@ -18,7 +17,7 @@ function EmployeesTable ( {employees, onClickDelete, onClickEdit }) {
                     first_name:(item) => <td>{item.first_name}</td>,
                     last_name:(item) => <td>{item.last_name}</td>,
                     department:(item) => <td>{item.department}</td>,
-                    position:(item) => <td>{EmployeesPositions[item.position]}</td>,
+                    position:(item) => <td>{item.position}</td>,
                     actions: (item) => (
                         <td>
                             <CRow>
@@ -73,9 +72,4 @@ const fields = [
     }
    
 ]
-const EmployeesPositions = {
-    0:"Админ",
-    1:"Менеджер",
-    2:"Сотрудник"
-}
 export default EmployeesTable

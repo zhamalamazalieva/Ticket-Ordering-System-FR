@@ -17,7 +17,6 @@ function UsersDeleteModal ({
     const onDelete = useCallback( async( id ) => {
         const { hasError, data } = await PansionService.deleteUser(id)
         if( hasError ) {
-            setDeleteError(data.detail)
             console.log('что то пошло не так')
         }
         else{

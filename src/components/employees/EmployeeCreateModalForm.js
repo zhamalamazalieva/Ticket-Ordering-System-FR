@@ -25,13 +25,17 @@ function EmployeeCreateModalForm({
   const PansionService = useContext(PansionServiceContext);
 
   const [departments, setDepartments] = useState([]);
+  const [positions, setPositions] = useState([]);
+
   const [fetchDepartmentError, setFetchDepartmentError] = useState(null);
+  const [fetchPositionsError, setFetchPositionsError] = useState(null);
+
 
   const [isLoading, setIsLoading] = useState(false);
   const [createError, setCreateError] = useState(null);
 
   const [selectedDepartment, setSelectedDepartment] = useState({});
-  const [selectedPosition, setSelectedPosition] = useState(positions[0]);
+  const [selectedPosition, setSelectedPosition] = useState({});
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -46,6 +50,21 @@ function EmployeeCreateModalForm({
       return null;
     };
     fetchDepartments();
+  }, [PansionService]);
+
+  useEffect(() => {
+    const fetchPositions = async () => {
+      const { hasError, data } = await PansionService.getPositions();
+      if (hasError) {
+        setFetchPositionsError("Произошла ошибка при загрузке отделов");
+      } else {
+        const pos = data.map((p) => ({ value: p.id, label: `${p.title}` }));
+        setPositions(pos);
+        pos[0] && setSelectedDepartment(pos[0]);
+      }
+      return null;
+    };
+    fetchPositions();
   }, [PansionService]);
 
 
@@ -177,12 +196,17 @@ function EmployeeCreateModalForm({
                         <CLabel htmlFor="position">Должность</CLabel>
                       </CCol>
                       <CCol xs="12">
+                      {fetchPositionsError ? (
+                          <span className="text-danger">
+                            {fetchPositionsError}
+                          </span>
+                        ) : (
                         <Select
                           id="position"
                           options={positions}
                           value={selectedPosition}
                           onChange={(s) => setSelectedPosition(s)}
-                        />
+                        />)}
                       </CCol>
                     </CFormGroup>
                   </CCol>
@@ -213,18 +237,5 @@ const formValues = {
   first_name: "",
   last_name: "",
 };
-const positions = [
-  {
-    value: 1,
-    label: "Администратор",
-  },
-  {
-    value: 2,
-    label: "Менеджер",
-  },
-  {
-    value: 3,
-    label: "Сотрудник",
-  },
-];
+
 export default EmployeeCreateModalForm;

@@ -1,11 +1,12 @@
 import {CRow, CCol, CDataTable, CButton} from '@coreui/react'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-function FlowsTable ( {flows, onClickDelete, onClickEdit}) {
+function PositionsTable ( {positions, onClickDelete, onClickEdit}) {
     return(
         <>
             <CDataTable
-                items={flows}
+                items={positions}
                 fields={fields}
                 hover
                 striped
@@ -13,31 +14,40 @@ function FlowsTable ( {flows, onClickDelete, onClickEdit}) {
                 six="sm"
                 sorter
                 scopedSlots={{
-                    start_date:(item) => <td>{item.start_date}</td>,
-                    end_date:(item) => <td>{item.end_date}</td>,
                     title:(item) => <td>{item.title}</td>,
                     description:(item) => <td>{item.description}</td>,
                     actions: (item) => (
                         <td>
                             <CRow>
-                                <CCol>
-                                    <CButton 
+                                     <CButton 
                                         size="sm"
                                         color="info"
                                         onClick={() => onClickEdit(item)}
+                                        className="ml-2"
+                                    >
+                                        <Link
+                                             to={`/positions/${item.id}`}
+                                             style={{ textDecoration: "none", color: "white" }}
+                                        >
+                                             Список сотрудников
+                                  </Link>
+                                    </CButton> 
+                                    <CButton 
+                                        size="sm"
+                                        color="primary"
+                                        onClick={() => onClickEdit(item)}
+                                        className="ml-2"
                                     >
                                         Изменить
-                                    </CButton>
-                                </CCol>
-                                <CCol>
+                                    </CButton> 
                                     <CButton 
                                         size="sm"
                                         color="danger"
                                         onClick={() => onClickDelete(item)}
+                                        className="ml-2"
                                     >
                                         Удалить
                                     </CButton>
-                                </CCol>
                             </CRow>
                         </td>
                     )
@@ -48,17 +58,10 @@ function FlowsTable ( {flows, onClickDelete, onClickEdit}) {
     )
 }
 const fields = [
-    {
-        key:'start_date',
-        label:'Начало потока'
-    },
-    {
-        key:'end_date',
-        label:'Конец потока'
-    },
+
     {
         key:'title',
-        label:'Поток №'
+        label:'Должность'
     },
     {
         key:'description',
@@ -67,9 +70,9 @@ const fields = [
     {
         key:'actions',
         label:'',
-        _style:{ width: "20%"}
+        _style:{ width: "30%"}
     }
    
 ]
 
-export default FlowsTable
+export default PositionsTable

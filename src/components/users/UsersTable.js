@@ -21,7 +21,6 @@ function UsersTable({ users, onClickDelete, onClickEdit }) {
           last_name: (item) => <td>{item.last_name}</td>,
           role: (item) => <td>{userRoles[item.role]}</td>,
           username: (item) => <td>{item.username}</td>,
-          password: (item) => <td>{item.password}</td>,
           actions: (item) => (
             <td>
               <CRow>
@@ -62,7 +61,7 @@ const fields = [
   },
   {
     key: "role",
-    label: "Должность",
+    label: "Роль",
   },
   {
     key: "username",
@@ -71,21 +70,14 @@ const fields = [
     sorter: false,
   },
   {
-    key: "password",
-    label: "Пароль",
-    filter: false,
-    sorter: false,
-  },
-
-  {
     key: "actions",
     label: "",
     _style: { width: "20%" },
   },
 ];
 const userRoles = {
-  0: "Админ",
-  1: "Менеджер",
-  2: "Сотрудник",
+  0: "Администратор",
+  1: "Сотрудник",
+  2: "Менеджер",
 };
 export default UsersTable;
