@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { CRow, CCol, CDataTable, CButton } from "@coreui/react";
+import React from "react";
+import { CRow, CDataTable, CButton } from "@coreui/react";
 
-function DepartmentTable({ departments, onEditClick, onDeleteClick }) {
+function DepartmentTable({ departments, onClickEdit, onClickDelete }) {
   
-  useEffect(() => {
-    console.log(departments);
-  }, []);
-
   return (
     <>
       <CDataTable
@@ -15,32 +11,28 @@ function DepartmentTable({ departments, onEditClick, onDeleteClick }) {
         hover
         striped
         bordered
-        size="sl"
+        size="sm"
         sorter
         scopedSlots={{
           title: (item) => <td>{item.title}</td>,
           description: (item) => <td>{item.description}</td>,
           actions: (item) => (
             <td>
-              <CRow>
-                <CCol>
+              <CRow className="m-width d-flex justify-content-between">
                   <CButton
                     size="sm"
                     color="info"
-                    onClick={() => onEditClick(item)}
+                    onClick={() => onClickEdit(item)}
                   >
                     Изменить
                   </CButton>
-                </CCol>
-                <CCol>
                   <CButton
                     size="sm"
                     color="danger"
-                    onClick={() => onDeleteClick(item)}
+                    onClick={() => onClickDelete(item)}
                   >
                     Удалить
                   </CButton>
-                </CCol>
               </CRow>
             </td>
           ),
@@ -53,16 +45,20 @@ function DepartmentTable({ departments, onEditClick, onDeleteClick }) {
 const fields = [
     {
         key:'title',
-        label:'Название отдела'
+        label:'Название отдела',
+        _style: { width: "40%" },
+
+        
     },
     {
         key:'description',
-        label:'Описание отдела'
+        label:'Описание отдела',
+        _style: { width: "40%" },
+
     },
     {
         key: "actions",
         label: "",
-        _style: { width: "20%" },
     },
 ];
 

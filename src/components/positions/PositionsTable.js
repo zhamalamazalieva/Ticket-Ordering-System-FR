@@ -18,7 +18,7 @@ function PositionsTable ( {positions, onClickDelete, onClickEdit}) {
                     description:(item) => <td>{item.description}</td>,
                     actions: (item) => (
                         <td>
-                            <CRow>
+                            <CRow className="m-width d-flex justify-content-between">
                                      <CButton 
                                         size="sm"
                                         color="info"
@@ -61,16 +61,19 @@ const fields = [
 
     {
         key:'title',
-        label:'Должность'
+        label:'Должность',
+        _style:{ width: "32%"}
+
     },
     {
         key:'description',
-        label:'Описание'
+        label:'Описание',
+        _style:{ width: "32%"}
+
     },
     {
         key:'actions',
         label:'',
-        _style:{ width: "30%"}
     }
    
 ]

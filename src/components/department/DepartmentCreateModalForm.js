@@ -16,44 +16,52 @@ import MiniSpinner from "../spinners/MiniSpinner";
 import PansionServiceContext from "../../context/PansionServiceContext";
 
 function DepartmentCreateModalForm({
-  isFormModalOpen,
-  closeFormModal,
+  isCreateModalFormOpen,
+  closeCreateModalForm,
   departments,
   setDepartments,
 }) {
+  const PansionService = useContext(PansionServiceContext);
+
   const [isLoading, setIsLoading] = useState(false);
   const [createError, setCreateError] = useState(null);
-  const PansionService = useContext(PansionServiceContext);
 
   const [newDepartment, setNewDepartment] = useState({
     title: "",
     description: "",
   });
 
-  const saveDepartment = (event) => {
+  const saveDepartment = (e) => {
     setNewDepartment({
-      title: event.target.form[1].value,
-      description: event.target.form[2].value,
+      title: e.target.form[1].value,
+      description: e.target.form[2].value,
     });
   };
+
   const onSubmit = async (event) => {
+    setIsLoading(true);
     event.preventDefault();
-    const {data } = await PansionService.createDepartment(
+    const { data, hasError } = await PansionService.createDepartment(
       newDepartment
     );
-    setDepartments([...departments, data]);
-    closeFormModal();
-    setNewDepartment({
-      title: "",
-      description: "",
-    });
+    if (hasError) {
+      setCreateError("Что-то пошло не так!");
+    } else {
+      setDepartments([...departments, data]);
+      closeCreateModalForm();
+      setNewDepartment({
+        title: "",
+        description: "",
+      });
+    }
+    setIsLoading(false);
   };
 
   return (
     <>
       <CModal
-        show={isFormModalOpen}
-        onClose={closeFormModal}
+        show={isCreateModalFormOpen}
+        onClose={closeCreateModalForm}
         size="sm"
         centered
       >
@@ -69,9 +77,9 @@ function DepartmentCreateModalForm({
                     </CCol>
                     <CCol xs="12">
                       <CInput
-                      required
+                        required
                         id="depName"
-                        onChange={(event) => saveDepartment(event)}
+                        onChange={(e) => saveDepartment(e)}
                         value={newDepartment.title}
                         type="text"
                       />
@@ -87,9 +95,9 @@ function DepartmentCreateModalForm({
                     </CCol>
                     <CCol xs="12">
                       <CInput
-                      required
+                        required
                         id="description"
-                        onChange={(event) => saveDepartment(event)}
+                        onChange={(e) => saveDepartment(e)}
                         value={newDepartment.description}
                         type="text"
                       />
@@ -115,7 +123,7 @@ function DepartmentCreateModalForm({
                   Добавить
                 </CButton>
               )}
-              <CButton color="secondary" onClick={closeFormModal}>
+              <CButton color="secondary" onClick={closeCreateModalForm}>
                 Cancel
               </CButton>
             </CModalFooter>
@@ -125,4 +133,4 @@ function DepartmentCreateModalForm({
     </>
   );
 }
-export default DepartmentCreateModalForm
+export default DepartmentCreateModalForm;

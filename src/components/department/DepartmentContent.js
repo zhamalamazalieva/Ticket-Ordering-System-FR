@@ -21,11 +21,9 @@ function DepartmentContent(props) {
   const [departments, setDepartments] = useState([]);
   const [selectedDepartment, setSelectedDepartment] = useState(null);
 
-  const [isCreateFormModalOpen, setIsCreateFormModalOpen] = useState(false);
-  const [isEditFormModalOpen, setIsEditFormModalOpen] = useState(false);
-  const [isDeleteConfirmModalOpen, setIsDeleteConfirmModalOpen] = useState(
-    false
-  );
+  const [isCreateModalFormOpen, setIsCreateModalFormOpen] = useState(false);
+  const [isEditModalFormOpen, setIsEditModalFormOpen] = useState(false);
+  const [isDeleteModalFormOpen, setIsDeleteModalFormOpen] = useState(false);
 
   //FETCH DEPARTMENT
   const fetchDepartment = useCallback(async () => {
@@ -43,48 +41,50 @@ function DepartmentContent(props) {
     fetchDepartment();
   }, []);
 
+  //REFETCH DEPARTMENT
   const reFetchDepartment = useCallback(async () => fetchDepartment(), []);
 
   //DELETE DEPARTMENT
-  const openDeleteConfirmModal = useCallback(
-    () => setIsDeleteConfirmModalOpen(true),
+  const openDeleteModalForm = useCallback(
+    () => setIsDeleteModalFormOpen(true),
     []
   );
-
-  const closeDeleteConfirmModal = useCallback(
-    () => setIsDeleteConfirmModalOpen(false),
+  const closeDeleteModalForm = useCallback(
+    () => setIsDeleteModalFormOpen(false),
     []
   );
-
-  const onDeleteClick = useCallback((department) => {
+  const onClickDelete = useCallback((department) => {
     setSelectedDepartment(department);
-    openDeleteConfirmModal();
+    openDeleteModalForm();
   }, []);
 
   //CREATE DEPARTMENT
-  const openCreateFormModal = useCallback(
-    () => setIsCreateFormModalOpen(true),
+  const openCreateModalForm = useCallback(
+    () => setIsCreateModalFormOpen(true),
     []
   );
 
-  const closeCreateFormModal = useCallback(
-    () => setIsCreateFormModalOpen(false),
+  const closeCreateModalForm = useCallback(
+    () => setIsCreateModalFormOpen(false),
     []
   );
 
   //EDIT DEPARTMENT
-  const openEditFormModal = useCallback(() => setIsEditFormModalOpen(true), []);
+  const openEditModalForm = useCallback(() => setIsEditModalFormOpen(true), []);
 
-  const closeEditFormModal = useCallback(() => setIsEditFormModalOpen(false),[]);
+  const closeEditModalForm = useCallback(
+    () => setIsEditModalFormOpen(false),
+    []
+  );
 
-  const onEditClick = useCallback((department) => {
+  const onClickEdit = useCallback((department) => {
     setSelectedDepartment(department);
-    openEditFormModal();
+    openEditModalForm();
   }, []);
 
   return (
     <>
-      <CCard>
+      <CCard className="p-2">
         <CCardHeader>
           <CRow>
             <CCol>Управление отделами</CCol>
@@ -92,7 +92,7 @@ function DepartmentContent(props) {
               <CButton
                 color="primary"
                 className="float-right"
-                onClick={openCreateFormModal}
+                onClick={openCreateModalForm}
               >
                 <span className="mr-3">Добавить отдел</span>
               </CButton>
@@ -103,32 +103,32 @@ function DepartmentContent(props) {
           {isLoading ? "Loading..." : ""}
           <DepartmentTable
             departments={departments}
-            onEditClick={onEditClick}
-            onDeleteClick={onDeleteClick}
+            onClickEdit={onClickEdit}
+            onClickDelete={onClickDelete}
           />
         </CCardBody>
       </CCard>
       <DepartmentCreateModalForm
         setDepartments={setDepartments}
         departments={departments}
-        isFormModalOpen={isCreateFormModalOpen}
-        openFormModal={openCreateFormModal}
-        closeFormModal={closeCreateFormModal}
+        isCreateModalFormOpen={isCreateModalFormOpen}
+        openCreateModalForm={openCreateModalForm}
+        closeCreateModalForm={closeCreateModalForm}
         reFetchDepartment={reFetchDepartment}
       />
       {selectedDepartment && (
         <DepartmentEditModalForm
-          isFormModalOpen={isEditFormModalOpen}
-          openFormModal={openEditFormModal}
-          closeFormModal={closeEditFormModal}
+          isEditModalFormOpen={isEditModalFormOpen}
+          openEditModalForm={openEditModalForm}
+          closeEditModalForm={closeEditModalForm}
           reFetchDepartment={reFetchDepartment}
           selectedDepartment={selectedDepartment}
         />
       )}
       {selectedDepartment && (
         <DepartmentDeleteModal
-          isDeleteConfirmModalOpen={isDeleteConfirmModalOpen}
-          closeDeleteConfirmModal={closeDeleteConfirmModal}
+          isDeleteModalFormOpen={isDeleteModalFormOpen}
+          closeDeleteModalForm={closeDeleteModalForm}
           selectedDepartment={selectedDepartment}
           reFetchDepartment={reFetchDepartment}
         />

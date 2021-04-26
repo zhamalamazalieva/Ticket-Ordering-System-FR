@@ -159,6 +159,7 @@ function RoomCreateModalForm({
                           type="number"
                           value={values.seats}
                           onChange={handleChange}
+                          min="1"
                         />
                       </CCol>
                     </CFormGroup>

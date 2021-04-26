@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import {
   CModal,
   CModalBody,
@@ -21,33 +21,35 @@ function PositionCreateModalForm({
   closeCreateModalForm,
   reFetchPositions,
 }) {
-
   const PansionService = useContext(PansionServiceContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [createError, setCreateError] = useState(null);
 
   const onSubmit = async (values) => {
-
     setIsLoading(true);
-    const { hasError, data } = await PansionService.createPosition(values.title, values.description);
+    const { hasError, data } = await PansionService.createPosition(
+      values.title,
+      values.description
+    );
     if (hasError) {
-      console.log("errorrrrrr");
+      setCreateError("errorrrrrr");
     } else {
       reFetchPositions();
-      closeCreateModalForm()
-      console.log("Uspeshno");
-
+      closeCreateModalForm();
     }
     setIsLoading(false);
   };
-  
 
   return (
     <Formik
       initialValues={formValues}
       onSubmit={onSubmit}
-    
+      validate={(values) => {
+        const errors = {};
+        !values.title && (errors.title = "Обязательное поле");
+        return errors;
+      }}
     >
       {({
         values,
@@ -82,7 +84,15 @@ function PositionCreateModalForm({
                           id="title"
                           value={values.title}
                           onChange={handleChange}
+                          className={
+                            errors.title && touched.title ? "border-error" : ""
+                          }
                         />
+                        {
+                          <span className="text-danger">
+                            {errors.title && touched.title && errors.title}
+                          </span>
+                        }
                       </CCol>
                     </CFormGroup>
                   </CCol>
@@ -129,7 +139,6 @@ function PositionCreateModalForm({
 const formValues = {
   title: "",
   description: "",
-
 };
 
 export default PositionCreateModalForm;

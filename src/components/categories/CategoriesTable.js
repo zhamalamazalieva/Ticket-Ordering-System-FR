@@ -18,9 +18,8 @@ function CategoriesTable({ categories, onClickDelete, onClickEdit }) {
           description: (item) => <td>{item.description}</td>,
           actions: (item) => (
             <td>
-              <CRow>
+              <CRow className="m-width d-flex justify-content-between">
                 <CButton
-                  className="ml-2"
                   size="sm"
                   color="info"
                   onClick={() => onClickEdit(item)}
@@ -33,7 +32,6 @@ function CategoriesTable({ categories, onClickDelete, onClickEdit }) {
                   </Link>
                 </CButton>
                 <CButton
-                  className="ml-2"
                   size="sm"
                   color="primary"
                   onClick={() => onClickEdit(item)}
@@ -41,7 +39,6 @@ function CategoriesTable({ categories, onClickDelete, onClickEdit }) {
                   Изменить
                 </CButton>
                 <CButton
-                  className="ml-2"
                   size="sm"
                   color="danger"
                   onClick={() => onClickDelete(item)}
@@ -60,15 +57,18 @@ const fields = [
   {
     key: "title",
     label: "Категория номеров",
+    _style: { width: "35%" },
+
   },
   {
     key: "description",
     label: "Описание",
+    _style: { width: "35%" },
+
   },
   {
     key: "actions",
     label: "",
-    _style: { width: "30%" },
   },
 ];
 

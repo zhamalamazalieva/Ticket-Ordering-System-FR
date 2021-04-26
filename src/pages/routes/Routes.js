@@ -17,7 +17,11 @@ const Flows = React.lazy(() => import("../flows/Flows"));
 const Categories = React.lazy(() => import("../categories/Categories"));
 const RoomsByCategory = React.lazy(() => import("../rooms/RoomsByCategory"));
 const Positions = React.lazy(() => import("../positions/Positions"));
-const EmployeesByPosition = React.lazy(() => import("../employees/EmployeesByPosition"))
+const EmployeesByPosition = React.lazy(() =>
+  import("../employees/EmployeesByPosition")
+);
+const Booking = React.lazy(() => import("../booking/Booking"));
+const BookingDetails = React.lazy(() => import("../../components/booking/BookingDetails"));
 
 function Routes() {
   return (
@@ -58,6 +62,12 @@ function Routes() {
         </PrivateRoute>
         <PrivateRoute exact path="/positions/:positionId">
           <EmployeesByPosition />
+        </PrivateRoute>
+        <PrivateRoute exact path="/booking">
+          <Booking />
+        </PrivateRoute>
+        <PrivateRoute exact path="/bookingDetails/:roomId">
+          <BookingDetails />
         </PrivateRoute>
         <Route path="">
           <Page404 />

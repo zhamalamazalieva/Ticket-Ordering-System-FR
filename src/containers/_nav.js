@@ -1,5 +1,5 @@
 import React from "react";
-import CIcon, { hotel } from "@coreui/icons-react";
+import CIcon from "@coreui/icons-react";
 
 const _nav = [
   {
@@ -33,6 +33,12 @@ const _nav = [
     name: "Потоки",
     to: "/flows",
     icon: "cilLoopCircular",
+  },
+  {
+    _tag: "CSidebarNavItem",
+    name: "Бронировать",
+    to: "/booking",
+    icon: "cilCalendar",
   },
 
   {

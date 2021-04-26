@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import {
   CModal,
   CModalBody,
@@ -21,27 +21,27 @@ function FlowCreateModalForm({
   closeCreateModalForm,
   reFetchFlows,
 }) {
-
   const PansionService = useContext(PansionServiceContext);
 
   const [isLoading, setIsLoading] = useState(false);
   const [createError, setCreateError] = useState(null);
 
   const onSubmit = async (values) => {
-
     setIsLoading(true);
-    const { hasError, data } = await PansionService.createFlow(values.start_date, values.end_date, values.title, values.description);
+    const { hasError, data } = await PansionService.createFlow(
+      values.start_date,
+      values.end_date,
+      values.title,
+      values.description
+    );
     if (hasError) {
-      console.log("errorrrrrr");
+      setCreateError("Что-то пошло нет так");
     } else {
       reFetchFlows();
-      closeCreateModalForm()
-      console.log("Uspeshno");
-
+      closeCreateModalForm();
     }
     setIsLoading(false);
   };
-  
 
   return (
     <Formik
@@ -71,9 +71,7 @@ function FlowCreateModalForm({
         >
           <CModalBody>
             <CForm onSubmit={handleSubmit}>
-              <CModalHeader closeButton>
-                Добавление нового потока
-              </CModalHeader>
+              <CModalHeader closeButton>Добавление нового потока</CModalHeader>
               <CModalBody>
                 <CRow>
                   <CCol>
@@ -119,7 +117,19 @@ function FlowCreateModalForm({
                           type="date"
                           value={values.end_date}
                           onChange={handleChange}
+                          className={
+                            errors.end_date && touched.end_date
+                              ? "border-error"
+                              : ""
+                          }
                         />
+                        {
+                          <span className="text-danger">
+                            {errors.end_date &&
+                              touched.end_date &&
+                              errors.end_date}
+                          </span>
+                        }
                       </CCol>
                     </CFormGroup>
                   </CCol>
@@ -185,7 +195,6 @@ const formValues = {
   end_date: "",
   title: "",
   description: "",
-
 };
 
 export default FlowCreateModalForm;

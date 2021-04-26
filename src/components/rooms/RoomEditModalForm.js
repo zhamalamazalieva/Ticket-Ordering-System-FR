@@ -229,7 +229,6 @@ function RoomEditModalForm ({
                                     color="secondary"
                                     onClick={() => { handleReset(); closeEditModalForm()}}
                                     className="ml-2"
-
                                 >
                                     Отмена
                                 </CButton>

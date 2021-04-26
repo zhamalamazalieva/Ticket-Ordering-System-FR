@@ -13,11 +13,11 @@ import {
   CForm,
 } from "@coreui/react";
 import PansionServiceContext from "../../context/PansionServiceContext";
+import MiniSpinner from "../spinners/MiniSpinner";
 
 function DepartmentEditModalForm({
-  isFormModalOpen,
-  closeFormModal,
-  openFormModal,
+  isEditModalFormOpen,
+  closeEditModalForm,
   reFetchDepartment,
   selectedDepartment,
 }) {
@@ -41,9 +41,9 @@ function DepartmentEditModalForm({
       description,
     });
     if (hasError) {
-      console.log("ошибкаааааааа");
+      setEditError("Что-то пошло не так");
     } else {
-      closeFormModal();
+      closeEditModalForm();
       reFetchDepartment();
     }
   };
@@ -51,8 +51,8 @@ function DepartmentEditModalForm({
   return (
     <>
       <CModal
-        show={isFormModalOpen}
-        onClose={closeFormModal}
+        show={isEditModalFormOpen}
+        onClose={closeEditModalForm}
         size="sm"
         centered
       >
@@ -97,13 +97,13 @@ function DepartmentEditModalForm({
             </CModalBody>
             <CModalFooter>
               {isLoading ? (
-                <div className="mr-5">...</div>
+                <div className="mr-5"><MiniSpinner/></div>
               ) : (
                 <CButton color="primary" type="submit">
                   Изменить
                 </CButton>
               )}
-              <CButton color="secondary" onClick={closeFormModal}>
+              <CButton color="secondary" onClick={closeEditModalForm}>
                 Cancel
               </CButton>
             </CModalFooter>

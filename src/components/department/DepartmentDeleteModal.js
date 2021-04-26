@@ -10,8 +10,8 @@ import {
 import PansionServiceContext from "../../context/PansionServiceContext";
 
 function DepartmentDeleteModal({
-  isDeleteConfirmModalOpen,
-  closeDeleteConfirmModal,
+  isDeleteModalFormOpen,
+  closeDeleteModalForm,
   selectedDepartment,
   reFetchDepartment,
 }) {
@@ -25,15 +25,15 @@ function DepartmentDeleteModal({
     if (hasError) {
       setDeleteError(data.detail);
     } else {
-      closeDeleteConfirmModal();
+      closeDeleteModalForm();
       reFetchDepartment();
     }
   }, []);
 
   return (
     <CModal
-      show={isDeleteConfirmModalOpen}
-      onClose={closeDeleteConfirmModal}
+      show={isDeleteModalFormOpen}
+      onClose={closeDeleteModalForm}
       size="sm"
       centered
     >
@@ -49,7 +49,7 @@ function DepartmentDeleteModal({
           >
             Удалить
           </CButton>
-          <CButton color="secondary" onClick={() => closeDeleteConfirmModal()}>
+          <CButton color="secondary" onClick={() => closeDeleteModalForm()}>
             Отмена
           </CButton>
         </CRow>
