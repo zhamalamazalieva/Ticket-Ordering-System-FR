@@ -11,7 +11,7 @@ const PrivateRoute = ({ children, ...remainingProps }) => {
         <Route 
             {...remainingProps}
             render={({ location }) => 
-            isAuthenticated || true ? (
+            isAuthenticated ? (
                  <div className="c-app c-default-layout">
                     <TheSidebar/>
                         <div className="c-wrapper">

@@ -14,7 +14,7 @@ export const loadUser = () => async (dispatch, getState) => {
   const token = getState().auth.refreshToken;
   console.log("tokenIS:",token);
   if (token) {
-    const result = await doRequestAndParse("/token/refresh/", {
+    const result = await doRequestAndParse("/users/info/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refresh: token }),

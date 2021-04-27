@@ -13,41 +13,44 @@ import {
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router";
 import PansionServiceContext from "../../context/PansionServiceContext";
-import { DatePicker, RangePicker } from "react-trip-date";
-import { ThemeProvider } from "styled-components";
+// import { DatePicker, RangePicker } from "react-trip-date";
+// import { ThemeProvider } from "styled-components";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { getDatesRange } from "../../utils/date";
 
-
-
-const handleResponsive = (setNumberOfMonth) => {
-  let width = document.querySelector(".tp-calendar").clientWidth;
-  if (width > 900) {
-    setNumberOfMonth(3);
-  } else if (width < 900 && width > 580) {
-    setNumberOfMonth(2);
-  } else if (width < 580) {
-    setNumberOfMonth(1);
-  }
-};
-
-const Day = ({ day }) => {
-  return (
-    <>
-      <p className="date">{day.format("DD")}</p>
-      <p className="date">7</p>
-    </>
-  );
-};
+// const handleResponsive = (setNumberOfMonth) => {
+//   let width = document.querySelector(".tp-calendar").clientWidth;
+//   if (width > 900) {
+//     setNumberOfMonth(3);
+//   } else if (width < 900 && width > 580) {
+//     setNumberOfMonth(2);
+//   } else if (width < 580) {
+//     setNumberOfMonth(1);
+//   }
+// };
 
 function BookingDetails({}) {
   const PansionService = useContext(PansionServiceContext);
 
-  const [value, onChange] = useState(new Date());
-  console.log("valueshka: ", value)
   const [isLoading, setIsLoading] = useState(false);
   const [room, setRoom] = useState(null);
   const { roomId } = useParams();
 
-  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(null);
+
+  const onChange = (dates) => {
+    const [start, end] = dates;
+
+    const dts = getDatesRange(Date.parse(start), Date.parse(end));
+
+    console.log("datas: ", dts);
+
+    setStartDate(start);
+    setEndDate(end);
+    console.log("start:", start )
+  };
 
   const fetchRoomDetails = useCallback(async () => {
     setIsLoading(true);
@@ -64,7 +67,6 @@ function BookingDetails({}) {
   useEffect(() => {
     fetchRoomDetails();
   }, []);
-
 
   return (
     <>
@@ -119,24 +121,53 @@ function BookingDetails({}) {
                       <CBadge color="secondary">{room.status}</CBadge>
                     </CCol>
                   </CRow>
-                  
                 </CCol>
               </CRow>
-              <ThemeProvider theme={theme}>
+              <CRow>     
+              <CCol className="col-7">
+              <CRow className="mb-3">
+                    <CCol className="col-3">
+                      <h6>Дата заезда:</h6>
+                    </CCol>
+                    <CCol className="col-3 p-0">
+                     <DatePicker
+                       selected={startDate}
+                       peekNextMonth
+                       showMonthDropdown
+                       showYearDropdown
+                       dropdownMode="select"
+                       disabled
+                     />
+
+                    </CCol>
+              </CRow>
+              <CRow className="mb-3">
+                    <CCol className="col-3">
+                      <h6>Дата выезда:</h6>
+                    </CCol>
+                    <CCol className="col-3 p-0">
                     <DatePicker
-                     
-                      selectedDays={[selectedDate]} //initial selected days
-                      jalali={false}
-                      numberOfMonths={2}
-                      numberOfSelectableDays={30} // number of days you need
-                      disabledDays={["2019-12-02"]} //disabeld days
-                      responsive={handleResponsive} // custom responsive, when using it, `numberOfMonths` props not working
-                      disabledBeforToday={true}
-                      disabled={false} // disable calendar
-                      dayComponent={Day} //custom day component
-                      // titleComponent={Title} // custom title of days
-                    />
-                  </ThemeProvider>
+                       selected={endDate}
+                       peekNextMonth
+                       showMonthDropdown
+                       showYearDropdown
+                       dropdownMode="select"
+                       disabled
+                     />
+                    </CCol>
+              </CRow>
+              </CCol>
+               </CRow>
+              <DatePicker
+                className="m-width"
+                selected={startDate}
+                onChange={onChange}
+                startDate={startDate}
+                endDate={endDate}
+                selectsRange
+                inline
+                monthsShown={4}
+              />
             </CCardBody>
             <CCardFooter>
               <CButton type="submit" size="sm" color="primary" className="p-2">
@@ -158,20 +189,3 @@ function BookingDetails({}) {
   );
 }
 export default BookingDetails;
-const theme = {
-  primary: {
-    light: "#d0f4f0",
-    main: "#13c8b5",
-    dark: "#12baa9",
-  },
-  grey: {
-    700: "#707070",
-    900: "#1b1b1d",
-  },
-  background: {
-    default: "#f5f5f5",
-  },
-  text: {
-    disabled: "#BABABA",
-  },
-};
