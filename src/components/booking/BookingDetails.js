@@ -13,22 +13,15 @@ import {
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router";
 import PansionServiceContext from "../../context/PansionServiceContext";
-// import { DatePicker, RangePicker } from "react-trip-date";
-// import { ThemeProvider } from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getDatesRange } from "../../utils/date";
+import { getDatesRange, getDates } from "../../utils/date";
 
-// const handleResponsive = (setNumberOfMonth) => {
-//   let width = document.querySelector(".tp-calendar").clientWidth;
-//   if (width > 900) {
-//     setNumberOfMonth(3);
-//   } else if (width < 900 && width > 580) {
-//     setNumberOfMonth(2);
-//   } else if (width < 580) {
-//     setNumberOfMonth(1);
-//   }
-// };
+
+const tickets = [
+  { start_date: "2021-04-27", end_date: "2021-04-30" },
+  { start_date: "2021-05-10", end_date: "2021-05-30" },
+];
 
 function BookingDetails({}) {
   const PansionService = useContext(PansionServiceContext);
@@ -37,19 +30,27 @@ function BookingDetails({}) {
   const [room, setRoom] = useState(null);
   const { roomId } = useParams();
 
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [excludedDays, setExcludedDays] = useState([]);
+
+  useEffect(() => {
+    let _excludedDays = [];
+    tickets.forEach((ticket) => {
+      const start_day = Date.parse(ticket.start_date);
+      const end_day = Date.parse(ticket.end_date);
+      Array.prototype.push.apply(_excludedDays, getDates(start_day, end_day));
+    });
+    setExcludedDays(_excludedDays);
+  }, []);
+
 
   const onChange = (dates) => {
     const [start, end] = dates;
 
     const dts = getDatesRange(Date.parse(start), Date.parse(end));
-
-    console.log("datas: ", dts);
-
     setStartDate(start);
     setEndDate(end);
-    console.log("start:", start )
   };
 
   const fetchRoomDetails = useCallback(async () => {
@@ -107,7 +108,7 @@ function BookingDetails({}) {
                   </CRow>
                   <CRow className="mb-3">
                     <CCol className="col-5">
-                      <h6>Цена:</h6>
+                      <h6>Сумма:</h6>
                     </CCol>
                     <CCol className="b-shadow rounded col-4 p-2">
                       {room.price}
@@ -123,48 +124,47 @@ function BookingDetails({}) {
                   </CRow>
                 </CCol>
               </CRow>
-              <CRow>     
-              <CCol className="col-7">
-              <CRow className="mb-3">
+              <CRow>
+                <CCol className="col-7">
+                  <CRow className="mb-3">
                     <CCol className="col-3">
                       <h6>Дата заезда:</h6>
                     </CCol>
                     <CCol className="col-3 p-0">
-                     <DatePicker
-                       selected={startDate}
-                       peekNextMonth
-                       showMonthDropdown
-                       showYearDropdown
-                       dropdownMode="select"
-                       disabled
-                     />
-
+                      <DatePicker
+                        selected={startDate}
+                        peekNextMonth
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                        disabled
+                      />
                     </CCol>
-              </CRow>
-              <CRow className="mb-3">
+                  </CRow>
+                  <CRow className="mb-3">
                     <CCol className="col-3">
                       <h6>Дата выезда:</h6>
                     </CCol>
                     <CCol className="col-3 p-0">
-                    <DatePicker
-                       selected={endDate}
-                       peekNextMonth
-                       showMonthDropdown
-                       showYearDropdown
-                       dropdownMode="select"
-                       disabled
-                     />
+                      <DatePicker
+                        selected={endDate}
+                        peekNextMonth
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                        disabled
+                      />
                     </CCol>
+                  </CRow>
+                </CCol>
               </CRow>
-              </CCol>
-               </CRow>
               <DatePicker
-                className="m-width"
                 selected={startDate}
                 onChange={onChange}
                 startDate={startDate}
                 endDate={endDate}
                 selectsRange
+                excludeDates={excludedDays}
                 inline
                 monthsShown={4}
               />

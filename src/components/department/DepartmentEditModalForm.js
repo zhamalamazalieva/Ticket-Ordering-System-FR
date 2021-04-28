@@ -45,8 +45,11 @@ function DepartmentEditModalForm({
     } else {
       closeEditModalForm();
       reFetchDepartment();
+      setTitle("")
+      setDescription("")
     }
   };
+
 
   return (
     <>

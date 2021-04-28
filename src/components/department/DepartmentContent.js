@@ -72,10 +72,11 @@ function DepartmentContent(props) {
   //EDIT DEPARTMENT
   const openEditModalForm = useCallback(() => setIsEditModalFormOpen(true), []);
 
-  const closeEditModalForm = useCallback(
-    () => setIsEditModalFormOpen(false),
-    []
-  );
+  const closeEditModalForm = useCallback(() => {
+      setIsEditModalFormOpen(false)
+      setSelectedDepartment(null)
+
+    },[]);
 
   const onClickEdit = useCallback((department) => {
     setSelectedDepartment(department);

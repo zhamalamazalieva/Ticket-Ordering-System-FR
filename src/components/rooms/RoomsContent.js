@@ -66,6 +66,7 @@ function RoomsContent(props) {
   });
   const closeEditModalForm = useCallback(() => {
     setIsEditModalFormOpen(false);
+    setSelectedRoom(null)
   });
   const onClickEdit = useCallback((room) => {
     setSelectedRoom(room);

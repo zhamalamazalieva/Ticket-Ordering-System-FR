@@ -39,6 +39,7 @@ const _nav = [
     name: "Бронировать",
     to: "/booking",
     icon: "cilCalendar",
+    className:"bg--active"
   },
 
   {

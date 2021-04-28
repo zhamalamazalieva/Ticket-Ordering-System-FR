@@ -71,7 +71,12 @@ function PositionsContent(props) {
 
   //EDITPosition
   const openEditModalForm = useCallback(() => { setIsEditModalFormOpen(true)},[])
-  const closeEditModalForm = useCallback(() => { setIsEditModalFormOpen(false)},[])
+  const closeEditModalForm = useCallback(() =>
+   { 
+     setIsEditModalFormOpen(false)
+     setSelectedPosition(null)
+  
+  },[])
   const onCLickEdit = useCallback(position => { 
     setSelectedPosition(position) 
     openEditModalForm()},[])

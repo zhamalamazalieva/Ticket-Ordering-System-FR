@@ -23,3 +23,86 @@
 .m-width{
     max-width: 100%;
 }
+.react-datepicker{
+    border: none !important;
+    width: 100%;
+}
+.react-datepicker__navigation--previous{
+    border-right-color: white !important;
+}
+.react-datepicker__navigation--next{
+    border-left-color: white !important;
+}
+.react-datepicker__day--selected{
+    background-color:#3399ff !important;
+}
+.react-datepicker__day--keyboard-selected{
+    background-color:#3399ff !important;
+}
+.react-datepicker__day--in-range{
+    background-color:#3399ff !important;
+}
+.react-datepicker__month-container {
+    background-color: #fff;
+    color: #969eac;
+    font-size: 1rem;
+    font-family: 'Mulish';
+    padding: 0 0.5rem;
+    &:first-child{
+        padding: 0;
+    }
+    &:last-child{
+        padding: 0;
+    }  
+  
+    .react-datepicker__month {
+      padding: 1rem 0;
+    }
+    .react-datepicker__current-month{
+        color:white !important;
+    }
+    .react-datepicker__day-name{
+        color: white !important;
+    }
+  
+    .react-datepicker__month-text {
+      display: inline-block;
+      width: 5rem;
+      margin: 0.5rem;
+      font-size: 1rem;
+      padding: 0.2rem;
+      &:hover {
+        background-color: #534cea;
+      }
+    }
+    .react-datepicker__header{
+        background-color: #3399ff;
+    }  
+  }
+  .bg--active{
+      background-color: #2eb85c;
+      color:white;
+  }
+ 
+//   function isFree(date) {
+//       for ticket in tickets:
+//         if date <= ticket.end_date && date >= ticket.start_date:
+//             return false
+    
+//     return true
+//   }
+
+//   {
+//     ....
+//     tickets = [
+//         {
+//             'start_date': '2021-07-05',
+//             'end_date': '2021-07-10',
+//         },
+//         {
+//             'start_date': '2021-07-05',
+//             'end_date': '2021-07-10',
+//         }
+//     ]
+//   }
+  

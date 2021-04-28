@@ -74,8 +74,12 @@ function UsersContent(props) {
   const openEditFormModal = useCallback(
     () => setIsEditFormModalOpen(true), [])
   
-  const closeEditFormModal = useCallback(
-    () => setIsEditFormModalOpen(false), [])
+  const closeEditFormModal = useCallback(() =>     
+    {
+      setIsEditFormModalOpen(false)
+      setSelectedUser(null)
+    
+    }, [])
 
   const onClickEdit = useCallback((user) => {
     setSelectedUser(user)

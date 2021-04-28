@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { CRow, CCol, CDataTable, CButton, CBadge } from "@coreui/react";
 import { Link } from "react-router-dom";
-
+import  CIcon from "@coreui/icons-react" 
 const getBadge = (status) => {
   switch (status) {
     case "Пустой":
@@ -46,20 +46,21 @@ function RoomsTable({ rooms, onClickDelete, onClickEdit }) {
                     </Link>
                   </CButton>
                   <CButton
-                    size="sm"
-                    color="primary"
+                    
                     onClick={() => onClickEdit(item)}
-                    className="ml-2"
+                    // className="ml-2"
                   >
-                    Изменить
+                            <CIcon name="cil-pencil"/>
                   </CButton>
                   <CButton
-                    size="sm"
-                    color="danger"
+                    // size="sm"
+                    // color="danger"
                     onClick={() => onClickDelete(item)}
-                    className="ml-2"
+                    // className="ml-1"
                   >
-                    Удалить
+                    <CIcon name="cil-trash"/>
+                    
+                    {/* Удалить */}
                   </CButton>
               </CRow>
             </td>
@@ -94,7 +95,7 @@ const fields = [
   {
     key: "actions",
     label: "",
-    _style: { width: "25%" },
+    _style: { width: "20%" },
   },
 ];
 

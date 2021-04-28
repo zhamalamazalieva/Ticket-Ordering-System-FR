@@ -78,6 +78,7 @@ function EmployeesContent(props) {
   },[]);
   const closeEditModalForm = useCallback(() => {
     setIsEditModalFormOpen(false);
+    setSelectedEmployee(null)
   },[]);
 
   const onClickEdit = useCallback(( employee) => {

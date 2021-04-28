@@ -76,6 +76,7 @@ function FlowsContent(props) {
   }, []);
   const closeEditModalForm = useCallback(() => {
     setIsEditModalFormOpen(false);
+    setSelectedFlow(null)
   }, []);
   const onCLickEdit = useCallback((flow) => {
     setSelectedFlow(flow);

@@ -10,7 +10,6 @@ import {
 } from "../types/authTypes";
 
 export const loadUser = () => async (dispatch, getState) => {
-  dispatch(userLoading());
   const token = getState().auth.refreshToken;
   console.log("tokenIS:",token);
   if (token) {

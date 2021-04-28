@@ -30,7 +30,7 @@ function Routes() {
         <Route exact path="/login">
           <Login />
         </Route>
-        <PrivateRoute exact path="/home">
+        <PrivateRoute exact path="/">
           <HomePage />
         </PrivateRoute>
         <PrivateRoute exact path="/departments">

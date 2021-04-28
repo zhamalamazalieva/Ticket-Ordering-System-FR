@@ -48,7 +48,6 @@ function CategoryEditModalForm ({
         }
         setIsLoading(false)
     }
-
     return(
         <>
         <Formik
